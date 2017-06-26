@@ -13,7 +13,7 @@ import pck_fact_conta.entidades.Factura;
 public class negocio_articulo {
     int ok;
     public int insertar(Factura numF, String nombreA, float precioA, BigInteger cantidadA){
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist_fact_contaPU");
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist2_fact_contaPU");
         EntityManager em1 = factory.createEntityManager();
         pck_fact_conta.entidades.Articulos c1 = new pck_fact_conta.entidades.Articulos();                  
         c1.setArtCodigo(BigDecimal.ZERO);
@@ -39,7 +39,7 @@ public class negocio_articulo {
     }
     
     public int eliminar(BigDecimal codigo){
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist_fact_contaPU");
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist2_fact_contaPU");
         EntityManager em1 = factory.createEntityManager();
         pck_fact_conta.entidades.Articulos c1 = new pck_fact_conta.entidades.Articulos();                  
         c1.setArtCodigo(codigo);            
@@ -60,7 +60,7 @@ public class negocio_articulo {
     }
     
     public int modificar(BigDecimal codigo, Factura numF, String nombreA, float precioA, BigInteger cantidadA){
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist_fact_contaPU");
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist2_fact_contaPU");
         EntityManager em1 = factory.createEntityManager();
         pck_fact_conta.entidades.Articulos c1 = new pck_fact_conta.entidades.Articulos();                  
 
@@ -88,7 +88,7 @@ public class negocio_articulo {
     public List<Articulos> mostrarArticulos(Factura facNumero){
         List<Articulos> listArticulos = new ArrayList<>();
         
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist_fact_contaPU");
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist2_fact_contaPU");
         EntityManager em1 = factory.createEntityManager();
         try{
             listArticulos = em1.createNamedQuery("Articulos.findByFacNumero", Articulos.class).setParameter("facNumero", facNumero).getResultList();
@@ -102,7 +102,7 @@ public class negocio_articulo {
     }
     
     public BigDecimal obtenerCodigo(Factura numF, String nombreA){
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist_fact_contaPU");
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist2_fact_contaPU");
         EntityManager em1 = factory.createEntityManager();
         pck_fact_conta.entidades.Articulos c1 = new pck_fact_conta.entidades.Articulos();                  
         BigDecimal codigo = null;
@@ -122,7 +122,7 @@ public class negocio_articulo {
     public double total()
     {
         double total=0;
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist_fact_contaPU");
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist2_fact_contaPU");
         EntityManager em1 = factory.createEntityManager();        
         total=Double.valueOf(em1.createNamedQuery("Articulos.totalSuma").getSingleResult().toString());        
         em1.close();

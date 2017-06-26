@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pck_fact_conta.negocio;
 
 import java.math.BigDecimal;
@@ -12,16 +7,12 @@ import javax.persistence.Persistence;
 import pck_fact_conta.entidades.Comprobantecontabilidad;
 import pck_fact_conta.entidades.Cuenta;
 
-/**
- *
- * @author Marco Rodriguez
- */
 public class negocio_detalle 
 {
     int validar;
     public int insertar(Comprobantecontabilidad comprobante, Cuenta cuenta, Double debe, Double haber )
     {
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist_fact_contaPU");
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist2_fact_contaPU");
         EntityManager em1 = factory.createEntityManager();
         pck_fact_conta.entidades.Detallecomprobantecontabilidad c1 = new pck_fact_conta.entidades.Detallecomprobantecontabilidad();                  
         c1.setComNumero(comprobante);

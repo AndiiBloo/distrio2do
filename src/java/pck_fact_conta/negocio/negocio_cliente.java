@@ -10,7 +10,7 @@ import pck_fact_conta.entidades.Cliente;
 public class negocio_cliente {
     int ok;
     public int insertar(String ruc, String nombre, String direccion){
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist_fact_contaPU");
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist2_fact_contaPU");
         EntityManager em1 = factory.createEntityManager();
         pck_fact_conta.entidades.Cliente c1 = new pck_fact_conta.entidades.Cliente(ruc);                  
         c1.setCliRuc(ruc);
@@ -34,7 +34,7 @@ public class negocio_cliente {
     }
     
     public int eliminar(String ruc){
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist_fact_contaPU");
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist2_fact_contaPU");
         EntityManager em1 = factory.createEntityManager();           
         pck_fact_conta.entidades.Cliente c1 = new pck_fact_conta.entidades.Cliente();                  
         c1.setCliRuc(ruc);            
@@ -55,7 +55,7 @@ public class negocio_cliente {
     }
     
     public int modificar(String ruc, String nombre, String direccion){
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist_fact_contaPU");
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist2_fact_contaPU");
         EntityManager em1 = factory.createEntityManager();             
         pck_fact_conta.entidades.Cliente c1 = new pck_fact_conta.entidades.Cliente();                  
 
@@ -82,7 +82,7 @@ public class negocio_cliente {
         List<String> datos = new ArrayList<>();
         String nombre;
         String direccion;
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist_fact_contaPU");
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist2_fact_contaPU");
         EntityManager em1 = factory.createEntityManager();        
         pck_fact_conta.entidades.Cliente c1 = new pck_fact_conta.entidades.Cliente();                  
         
@@ -108,7 +108,7 @@ public class negocio_cliente {
     public List<Cliente> mostrarClientes(){
         List<Cliente> listClientes = new ArrayList<>();
         
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist_fact_contaPU");
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist2_fact_contaPU");
         EntityManager em1 = factory.createEntityManager();
         
         try{
