@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pck_fact_conta.negocio;
 
 import java.math.BigDecimal;
@@ -15,16 +10,12 @@ import javax.persistence.Persistence;
 import pck_fact_conta.entidades.Comprobantecontabilidad;
 import pck_fact_conta.entidades.Detallecomprobantecontabilidad;
 
-/**
- *
- * @author Marco Rodriguez
- */
 public class negocio_comprobante 
 {
     int validar;
     public int insertar(String fecha, String observaciones)
     {
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist_fact_contaPU");
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist2_fact_contaPU");
         EntityManager em1 = factory.createEntityManager();
         pck_fact_conta.entidades.Comprobantecontabilidad c1 = new pck_fact_conta.entidades.Comprobantecontabilidad();                  
         c1.setComNumero(BigDecimal.ZERO);
@@ -48,7 +39,7 @@ public class negocio_comprobante
     
     public int eliminar(BigDecimal codigo)
     {
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist_fact_contaPU");
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist2_fact_contaPU");
         EntityManager em1 = factory.createEntityManager();
         pck_fact_conta.entidades.Detallecomprobantecontabilidad det=new Detallecomprobantecontabilidad();
         em1.createNamedQuery("Detallecomprobantecontabilidad.deleteComNumero").setParameter("comNumero",new Comprobantecontabilidad(codigo)).getResultList();
@@ -71,7 +62,7 @@ public class negocio_comprobante
     
      public int modificar(BigDecimal codigo, String fecha, String observaciones)
      {
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist_fact_contaPU");
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist2_fact_contaPU");
         EntityManager em1 = factory.createEntityManager();             
         pck_fact_conta.entidades.Comprobantecontabilidad c1 = new pck_fact_conta.entidades.Comprobantecontabilidad();                  
 
@@ -97,7 +88,7 @@ public class negocio_comprobante
         List<String> datos = new ArrayList<>();
         String fecha;
         String observaciones;
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist_fact_contaPU");
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist2_fact_contaPU");
         EntityManager em1 = factory.createEntityManager();        
         pck_fact_conta.entidades.Comprobantecontabilidad c1 = new pck_fact_conta.entidades.Comprobantecontabilidad();                  
         
@@ -123,7 +114,7 @@ public class negocio_comprobante
     public BigDecimal maximo()
     {
         BigDecimal max=BigDecimal.ZERO;
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist_fact_contaPU");
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist2_fact_contaPU");
         EntityManager em1 = factory.createEntityManager();        
         max= BigDecimal.valueOf(Double.valueOf(em1.createNamedQuery("Comprobantecontabilidad.maxComNumero").getSingleResult().toString()));        
         em1.close();
