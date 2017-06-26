@@ -39,8 +39,8 @@ public class servlet_usuario extends HttpServlet {
             if(boton.equals("Ingresar"))
             {
                 HttpSession session = request.getSession(true);
-                if(nusu.buscar(nombre,password) != null){
-                    session.setAttribute("usuario", nusu.buscar(nombre,password));
+                if(nusu.buscarUs(nombre,password) != null){
+                    session.setAttribute("usuario", nusu.buscarUs(nombre,password));
                     response.sendRedirect("servlet_menu");
                 }
                 else{

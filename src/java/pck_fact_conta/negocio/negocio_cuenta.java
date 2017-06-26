@@ -13,7 +13,7 @@ public class negocio_cuenta {
     int validar;
     public int insertar(String nombre, Tipocuenta tipo)
     {
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist_fact_contaPU");
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist2_fact_contaPU");
         EntityManager em1 = factory.createEntityManager();
         pck_fact_conta.entidades.Cuenta c1 = new pck_fact_conta.entidades.Cuenta();                  
         c1.setCueCodigo(BigDecimal.ZERO);
@@ -36,7 +36,7 @@ public class negocio_cuenta {
     }
     
     public int eliminar(BigDecimal codigo){
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist_fact_contaPU");
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist2_fact_contaPU");
         EntityManager em1 = factory.createEntityManager();           
         pck_fact_conta.entidades.Cuenta c1 = new pck_fact_conta.entidades.Cuenta();                  
         c1.setCueCodigo(codigo);            
@@ -57,7 +57,7 @@ public class negocio_cuenta {
     
      public int modificar(BigDecimal codigo, String nombre, Tipocuenta tipo)
      {
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist_fact_contaPU");
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist2_fact_contaPU");
         EntityManager em1 = factory.createEntityManager();             
         pck_fact_conta.entidades.Cuenta c1 = new pck_fact_conta.entidades.Cuenta();                  
 
@@ -84,7 +84,7 @@ public class negocio_cuenta {
         List<String> datos = new ArrayList<>();
         String nombre;
         String tipo;
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist_fact_contaPU");
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist2_fact_contaPU");
         EntityManager em1 = factory.createEntityManager();        
         pck_fact_conta.entidades.Cuenta c1 = new pck_fact_conta.entidades.Cuenta();                  
         
@@ -110,7 +110,7 @@ public class negocio_cuenta {
      public List<Cuenta> mostrar()
     {
         List<Cuenta> datos = new ArrayList<>();
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist_fact_contaPU");
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist2_fact_contaPU");
         EntityManager em1 = factory.createEntityManager();        
         datos=em1.createNamedQuery("Cuenta.findAll").getResultList();        
         em1.close();

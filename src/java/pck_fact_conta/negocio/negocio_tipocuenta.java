@@ -14,7 +14,7 @@ public class negocio_tipocuenta
     int validar;
     public int insertar(String nombre)
     {
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist_fact_contaPU");
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist2_fact_contaPU");
         EntityManager em1 = factory.createEntityManager();
         pck_fact_conta.entidades.Tipocuenta c1 = new pck_fact_conta.entidades.Tipocuenta();
         c1.setTdcCodigo(BigDecimal.ZERO);
@@ -37,7 +37,7 @@ public class negocio_tipocuenta
     
     public int eliminar(BigDecimal codigo)
     {
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist_fact_contaPU");
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist2_fact_contaPU");
         EntityManager em1 = factory.createEntityManager();           
         pck_fact_conta.entidades.Tipocuenta c1 = new pck_fact_conta.entidades.Tipocuenta();                  
         c1.setTdcCodigo(codigo);            
@@ -58,7 +58,7 @@ public class negocio_tipocuenta
     
      public int modificar(BigDecimal codigo, String nombre)
      {
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist_fact_contaPU");
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist2_fact_contaPU");
         EntityManager em1 = factory.createEntityManager();             
         pck_fact_conta.entidades.Tipocuenta c1 = new pck_fact_conta.entidades.Tipocuenta();                  
 
@@ -83,7 +83,7 @@ public class negocio_tipocuenta
     {
         List<String> datos = new ArrayList<>();
         String nombre;
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist_fact_contaPU");
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist2_fact_contaPU");
         EntityManager em1 = factory.createEntityManager(); 
         pck_fact_conta.entidades.Tipocuenta c1 = new pck_fact_conta.entidades.Tipocuenta();                  
         
@@ -103,7 +103,7 @@ public class negocio_tipocuenta
     public List<Tipocuenta> mostrar()
     {
         List<Tipocuenta> datos = new ArrayList<>();
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist_fact_contaPU");
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist2_fact_contaPU");
         EntityManager em1 = factory.createEntityManager();        
         datos=em1.createNamedQuery("Tipocuenta.findAll").getResultList();        
         em1.close();

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pck_fact_conta.negocio;
 
 import java.math.BigDecimal;
@@ -13,14 +8,10 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import pck_fact_conta.entidades.CiudadEntrega;
 
-/**
- *
- * @author Andrés López
- */
 public class negocio_ciudad {
     int ok;
     public int insertar(String nombre){
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist_fact_contaPU");
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist2_fact_contaPU");
         EntityManager em1 = factory.createEntityManager();
         pck_fact_conta.entidades.CiudadEntrega c1 = new pck_fact_conta.entidades.CiudadEntrega();                  
         c1.setCiuCodigo(BigDecimal.ZERO);
@@ -43,7 +34,7 @@ public class negocio_ciudad {
     }
     
     public int eliminar(BigDecimal codigo){
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist_fact_contaPU");
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist2_fact_contaPU");
         EntityManager em1 = factory.createEntityManager();           
         pck_fact_conta.entidades.CiudadEntrega c1 = new pck_fact_conta.entidades.CiudadEntrega();                  
         c1.setCiuCodigo(codigo);            
@@ -64,7 +55,7 @@ public class negocio_ciudad {
     }
     
     public int modificar(BigDecimal codigo, String nombre){
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist_fact_contaPU");
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist2_fact_contaPU");
         EntityManager em1 = factory.createEntityManager();             
         pck_fact_conta.entidades.CiudadEntrega c1 = new pck_fact_conta.entidades.CiudadEntrega();                  
 
@@ -88,7 +79,7 @@ public class negocio_ciudad {
      
     public String buscar(BigDecimal codigo){
         String nombre;
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist_fact_contaPU");
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist2_fact_contaPU");
         EntityManager em1 = factory.createEntityManager();        
         pck_fact_conta.entidades.CiudadEntrega c1 = new pck_fact_conta.entidades.CiudadEntrega();                  
         
@@ -108,7 +99,7 @@ public class negocio_ciudad {
     public List<CiudadEntrega> mostrarCiudades(){
         List<CiudadEntrega> listCiudades = new ArrayList<>();
         
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist_fact_contaPU");
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist2_fact_contaPU");
         EntityManager em1 = factory.createEntityManager();
         
         try{
