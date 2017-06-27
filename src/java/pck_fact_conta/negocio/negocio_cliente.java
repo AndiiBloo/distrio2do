@@ -78,31 +78,22 @@ public class negocio_cliente {
         return ok;
     }
      
-    public List<String> buscar(String ruc){
-        List<String> datos = new ArrayList<>();
-        String nombre;
-        String direccion;
+    public Cliente buscar(String ruc){
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist2_fact_contaPU");
         EntityManager em1 = factory.createEntityManager();        
         pck_fact_conta.entidades.Cliente c1 = new pck_fact_conta.entidades.Cliente();                  
         
         try{
-            c1 = em1.find(Cliente.class,ruc);
-            nombre = c1.getCliNombre();
-            direccion = c1.getCliDireccion();
-            datos.add(nombre);
-            datos.add(direccion);
+            c1 = em1.find(Cliente.class,ruc); 
+            c1.setCliRuc(ruc);
         }catch (Exception ex){
             System.out.println(ex.getMessage());
-            nombre = null;
-            direccion = null;
-            datos.add(nombre);
-            datos.add(direccion);
+            c1 = null;
         }finally{
             em1.close();
             factory.close();
         }
-        return datos;
+        return c1;
     }
     
     public List<Cliente> mostrarClientes(){

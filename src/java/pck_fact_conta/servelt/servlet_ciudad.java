@@ -82,7 +82,7 @@ public class servlet_ciudad extends HttpServlet {
                 }
 
                 if(boton.equals("Buscar")){  
-                    nombre = nciu.buscar(BigDecimal.valueOf(Double.valueOf(codigo)));
+                    /*nombre = nciu.buscar(BigDecimal.valueOf(Double.valueOf(codigo)));*/
                     if(nombre!=null)
                         msj="Se encontró";
                     else

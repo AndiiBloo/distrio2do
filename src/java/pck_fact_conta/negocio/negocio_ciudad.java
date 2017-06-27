@@ -77,23 +77,21 @@ public class negocio_ciudad {
         return ok;
     }
      
-    public String buscar(BigDecimal codigo){
-        String nombre;
+    public CiudadEntrega buscar(BigDecimal codigo){
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist2_fact_contaPU");
         EntityManager em1 = factory.createEntityManager();        
         pck_fact_conta.entidades.CiudadEntrega c1 = new pck_fact_conta.entidades.CiudadEntrega();                  
         
         try{
             c1 = em1.find(CiudadEntrega.class,codigo);
-            nombre = c1.getCiuNombre();
         }catch (Exception ex){
             System.out.println(ex.getMessage());
-            nombre = null;
+            c1 = null;
         }finally{
             em1.close();
             factory.close();
         }
-        return nombre;
+        return c1;
     }
     
     public List<CiudadEntrega> mostrarCiudades(){
