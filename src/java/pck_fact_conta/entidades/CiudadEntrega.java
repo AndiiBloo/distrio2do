@@ -30,12 +30,9 @@ public class CiudadEntrega implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Id
     @Basic(optional = false)
-    @NotNull
     @Column(name = "CIU_CODIGO")
     private BigDecimal ciuCodigo;
     @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 100)
     @Column(name = "CIU_NOMBRE")
     private String ciuNombre;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "ciuCodigo")

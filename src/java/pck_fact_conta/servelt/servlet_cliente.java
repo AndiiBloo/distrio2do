@@ -82,8 +82,8 @@ public class servlet_cliente extends HttpServlet {
                 }
 
                 if(boton.equals("Buscar")){  
-                    nombre = ncli.buscar(ruc).get(0);
-                    direccion = ncli.buscar(ruc).get(1);
+                    /*nombre = ncli.buscar(ruc).get(0);
+                    direccion = ncli.buscar(ruc).get(1);*/
                     if(nombre!=null && direccion!=null)
                         msj="Se encontró";
                     else
