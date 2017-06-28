@@ -34,13 +34,9 @@ public class Cliente implements Serializable {
     @Column(name = "CLI_RUC")
     private String cliRuc;
     @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 100)
     @Column(name = "CLI_NOMBRE")
     private String cliNombre;
     @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 200)
     @Column(name = "CLI_DIRECCION")
     private String cliDireccion;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "cliRuc")

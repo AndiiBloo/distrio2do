@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Ciudades</title>
+        <f:event type="preRenderView" listener="#{menuController.verificarSesion()}"/>
+    </h:head>
+    <h:body>
+        <center>
+            <p:outputLabel style="font-weight: bold; font-size: 30px;" id="titulo" value="Tabla Simple - Ciudades"/>
+        </center>
+        <h:form>
+            <p:messages autoUpdate="true" id="mensajes" showDetail="true" severity="info, fatal, error"/>
+            <p:panel style="position:relative; margin:0 auto; width: 44%;" header="Ciudad" id="panel">
+                <h:panelGrid columns="2" style="position:relative; margin:0 auto;">
+                    <h:outputLabel for="codigo" value="Codigo: "/>
+                    <p:inputText id="codigo" value="#{ciudadController.ciudad.ciuCodigo}"/>
+                    <h:outputLabel for="nombre" value="Nombre: "/>
+                    <p:inputText id="nombre" value="#{ciudadController.ciudad.ciuNombre}"/>
+                </h:panelGrid>
+                <br/>
+                <h:panelGrid columns="5">
+                    <p:commandButton ajax="false" value="Ingresar" id="btnIngresar" action="#{ciudadController.ingresar}"/>
+                    <p:commandButton ajax="false" value="Eliminar" id="btnEliminar" action="#{ciudadController.eliminar}"/>
+                    <p:commandButton ajax="false" value="Modificar" id="btnModificar" action="#{ciudadController.modificar}"/>
+                    <p:commandButton ajax="false" value="Buscar" id="btnBuscar" action="#{ciudadController.buscar}"/>
+                    <p:button value="Regresar" outcome="menu?faces-redirect=true"/>
+                </h:panelGrid>
+            </p:panel>
+        </h:form>
+    </h:body>
+</html>
+

@@ -9,8 +9,12 @@
         <f:event type="preRenderView" listener="#{menuController.verificarSesion()}"/>
     </h:head>
     <h:body>
-        <p:outputLabel style="font-weight: bold; font-size: 30px;" id="titulo" value="Menú de opciones"/>
+        <center>
+            <p:outputLabel style="font-weight: bold; font-size: 30px;" id="titulo" value="Menú de opciones"/>
+        </center>
         <h:form>
+            <p:button value="Clientes" outcome="cliente?faces-redirect=true"/>
+            <p:button value="Ciudades" outcome="ciudad?faces-redirect=true"/>
             <p:commandButton actionListener="#{menuController.cerrarSesion()}" value="Cerrar Sesión" action="/index?faces-redirect=true"/>
         </h:form>
     </h:body>
