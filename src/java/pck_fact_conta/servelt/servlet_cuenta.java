@@ -108,7 +108,7 @@ public class servlet_cuenta extends HttpServlet
                    is_pantalla=desplegar_pantalla("","","");                  
                    is_pantalla+=ls_mensaje;
                 }
-                if(is_boton.equals("Buscar"))
+                /*if(is_boton.equals("Buscar"))
                 {  ls_nombre=ncli.buscar(BigDecimal.valueOf(Double.valueOf(ls_codigo))).get(0);
                     ls_tipo=ncli.buscar(BigDecimal.valueOf(Double.valueOf(ls_codigo))).get(1);
                    if(ls_nombre!=null && ls_tipo!=null)
@@ -122,7 +122,7 @@ public class servlet_cuenta extends HttpServlet
                    is_pantalla=desplegar_pantalla(ls_codigo,ls_nombre,ls_tipo);                  
                    is_pantalla+=ls_mensaje;
                     
-                }
+                }*/
                 if(is_boton.equals("Regresar"))
                 {
                 response.sendRedirect("servlet_menu");

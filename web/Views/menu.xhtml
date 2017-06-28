@@ -13,8 +13,15 @@
             <p:outputLabel style="font-weight: bold; font-size: 30px;" id="titulo" value="Menú de opciones"/>
         </center>
         <h:form>
+<<<<<<< HEAD
             <p:button value="Clientes" rendered="#{menuController.botones.get(0)}" outcome="cliente?faces-redirect=true"/>
             <p:button value="Ciudades" rendered="#{menuController.botones.get(1)}" outcome="ciudad?faces-redirect=true"/>
+=======
+            <p:button value="Clientes" outcome="cliente?faces-redirect=true"/>
+            <p:button value="Ciudades" outcome="ciudad?faces-redirect=true"/>
+            <p:button value="Cuenta" outcome="cuenta?faces-redirect=true"/>
+            <p:button value="Tipo Cuenta" outcome="tipocuenta?faces-redirect=true"/>
+>>>>>>> refs/remotes/origin/master
             <p:commandButton actionListener="#{menuController.cerrarSesion()}" value="Cerrar Sesión" action="/index?faces-redirect=true"/>
         </h:form>
     </h:body>
