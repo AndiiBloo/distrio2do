@@ -40,6 +40,8 @@ public class Tipocuenta implements Serializable {
     private Collection<Cuenta> cuentaCollection;
 
     public Tipocuenta() {
+        this.tdcCodigo = BigDecimal.ZERO;
+        this.tdcNombre = "";
     }
 
     public Tipocuenta(BigDecimal tdcCodigo) {

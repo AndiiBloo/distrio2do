@@ -79,29 +79,22 @@ public class negocio_cuenta {
         return validar;
      }
      
-    public List<String> buscar(BigDecimal codigo)
+    public List<Cuenta> buscar(BigDecimal codigo)
     {
-        List<String> datos = new ArrayList<>();
-        String nombre;
-        String tipo;
+        List<Cuenta> datos = new ArrayList<>();
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist2_fact_contaPU");
         EntityManager em1 = factory.createEntityManager();        
-        pck_fact_conta.entidades.Cuenta c1 = new pck_fact_conta.entidades.Cuenta();                  
+        pck_fact_conta.entidades.Cuenta c1;                  
         
         try{
             c1 = em1.find(Cuenta.class,codigo);
-            nombre=c1.getCueNombre();
-            tipo=c1.getTdcCodigo().getTdcCodigo().toString();
-            datos.add(nombre);
-            datos.add(tipo);
+            datos.add(c1);
         }catch 
                 (Exception ex)
         {
             System.out.println(ex.getMessage()); 
-            nombre=null;
-            tipo=null;
-            datos.add(nombre);
-            datos.add(tipo);
+            c1 = null;
+            datos.add(c1);
         } 
         em1.close();
         factory.close();

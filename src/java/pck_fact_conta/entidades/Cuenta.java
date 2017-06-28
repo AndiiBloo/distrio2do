@@ -46,6 +46,9 @@ public class Cuenta implements Serializable {
     private Tipocuenta tdcCodigo;
 
     public Cuenta() {
+        this.cueCodigo = BigDecimal.ZERO;
+        this.cueNombre = "";
+        this.tdcCodigo = new Tipocuenta();
     }
 
     public Cuenta(BigDecimal cueCodigo) {
