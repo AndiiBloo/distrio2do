@@ -7,13 +7,14 @@
         <title>Inicio</title>
     </h:head>
     <h:body>
-        
-        <p:outputLabel style="font-weight: bold; font-size: 30px;" id="titulo" value="Proyecto Segundo Parcial"/>
-        
+        <center>
+            <p:outputLabel style="font-weight: bold; font-size: 30px;" id="titulo" value="Proyecto Segundo Parcial"/>
+        </center>
+        <br/>
         <h:form>
             <p:messages autoUpdate="true" id="mensajes" showDetail="true" severity="info, fatal, error"/>
-            <p:panel header="Login" id="panel">
-                <p:panelGrid columns="2">
+            <p:panel style="position:relative; margin:0 auto; width: 30%;" header="Login" id="panel">
+                <h:panelGrid columns="2">
                     <h:outputLabel for="usuario" value="Usuario:"/>
                     <p:inputText id="usuario" value="#{inicioController.usuario.usNombre}" required="true"/>
                     <h:outputLabel for="password" value="Contraseña: "/>
@@ -23,7 +24,7 @@
                     <p:commandButton value="Cancelar" update="panel" process="@this">
                         <p:resetInput target="panel"/>
                     </p:commandButton>
-                </p:panelGrid>
+                </h:panelGrid>
             </p:panel>
         </h:form>
     </h:body>

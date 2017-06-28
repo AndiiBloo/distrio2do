@@ -12,22 +12,23 @@
         <p:outputLabel style="font-weight: bold; font-size: 30px;" id="titulo" value="Tabla Simple - Clientes"/>
         <h:form>
             <p:messages autoUpdate="true" id="mensajes" showDetail="true" severity="info, fatal, error"/>
-            <p:panel header="Login" id="panel">
-                <p:panelGrid columns="2">
+            <p:panel style="position:relative; margin:0 auto; width: 44%;" header="Cliente" id="panel">
+                <h:panelGrid columns="2" style="position:relative; margin:0 auto;">
                     <h:outputLabel for="ruc" value="Ruc: "/>
                     <p:inputText id="ruc" value="#{clienteController.cliente.cliRuc}" required="true"/>
                     <h:outputLabel for="nombre" value="Nombre: "/>
                     <p:inputText id="nombre" value="#{clienteController.cliente.cliNombre}"/>
                     <h:outputLabel for="direccion" value="Dirección: "/>
                     <p:inputText id="direccion" value="#{clienteController.cliente.cliDireccion}" />
-                </p:panelGrid>
-                <p:panelGrid columns="5">
+                    <br/>
+                </h:panelGrid>
+                <h:panelGrid columns="5">
                     <p:commandButton ajax="false" value="Ingresar" id="btnIngresar" action="#{clienteController.ingresar}"/>
                     <p:commandButton ajax="false" value="Eliminar" id="btnEliminar" action="#{clienteController.eliminar}"/>
                     <p:commandButton ajax="false" value="Modificar" id="btnModificar" action="#{clienteController.modificar}"/>
                     <p:commandButton ajax="false" value="Buscar" id="btnBuscar" action="#{clienteController.buscar}"/>
                     <p:button value="Regresar" outcome="menu?faces-redirect=true"/>
-                </p:panelGrid>
+                </h:panelGrid>
             </p:panel>
         </h:form>
     </h:body>
