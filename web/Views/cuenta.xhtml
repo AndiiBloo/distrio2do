@@ -2,12 +2,40 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
-        <title>Facelet Title</title>
+        <title>Cuenta</title>
+        <f:event type="preRenderView" listener="#{menuController.verificarSesion()}"/>
     </h:head>
     <h:body>
-        Hello from Facelets
+        <center>
+            <p:outputLabel style="font-weight: bold; font-size: 30px;" id="titulo" value="Tabla Simple - Cuentas"/>
+        </center>
+        <h:form>
+            <p:messages autoUpdate="true" id="mensajes" showDetail="true" severity="info, fatal, error"/>
+            <p:panel style="position:relative; margin:0 auto; width: 44%;" header="Cuenta" id="panel">
+                <h:panelGrid columns="2" style="position:relative; margin:0 auto;">
+                    <h:outputLabel for="codigo" value="Codigo:"/>
+                    <p:inputText id="codigo" value="#{cuentaController.cuenta.cueCodigo}"/>
+                    <h:outputLabel for="nombre" value="Nombre:"/>        
+                    <p:inputText id="nombre" value="#{cuentaController.cuenta.cueNombre}"/>
+                    <h:outputLabel for="tipo" value="Tipo Cuenta:"/>
+                    <p:selectOneMenu id="tipo" value="#{cuentaController.codigo}" effect="fade" >
+                        <f:selectItem itemLabel="#{cuentaController.codigo}" itemValue="" />
+                        <f:selectItems value="#{cuentaController.tiposcuenta}" var="tipocuenta" itemLabel="#{tipocuenta.tdcNombre}" itemValue="#{tipocuenta.tdcCodigo}"  />                        
+                    </p:selectOneMenu>                    
+                </h:panelGrid>
+                <br/>
+                <h:panelGrid columns="5">
+                    <p:commandButton ajax="false" value="Insertar" id="btnInsertar" action="#{cuentaController.guardarCuenta}"/>
+                    <p:commandButton ajax="false" value="Eliminar" id="btnEliminar" action="#{cuentaController.eliminarCuenta}"/>
+                    <p:commandButton ajax="false" value="Modificar" id="btnModificar" action="#{cuentaController.modificarCuenta}"/>
+                    <p:commandButton ajax="false" value="Buscar" id="btnBuscar" action="#{cuentaController.obtenerCuenta}"/>
+                    <p:button value="Regresar" outcome="menu?faces-redirect=true"/>
+                </h:panelGrid>
+            </p:panel>
+        </h:form>
     </h:body>
 </html>
 

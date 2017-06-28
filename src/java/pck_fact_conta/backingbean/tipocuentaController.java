@@ -10,8 +10,10 @@ package pck_fact_conta.backingbean;
  * @author Marco Rodriguez
  */
 import java.io.Serializable;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.context.FacesContext;
 import pck_fact_conta.entidades.Tipocuenta;
 import pck_fact_conta.negocio.negocio_tipocuenta;
 
@@ -19,21 +21,20 @@ import pck_fact_conta.negocio.negocio_tipocuenta;
 @SessionScoped
 public class tipocuentaController implements Serializable {
     private Tipocuenta tipocuenta;
-    private negocio_tipocuenta negotipcue;
-    private String mensaje;
+    final private negocio_tipocuenta negotipcue;
 
     public tipocuentaController() {
         this.tipocuenta = new Tipocuenta();
         this.negotipcue = new negocio_tipocuenta();
-        this.mensaje = "";
     }
     
     public void guardarTipoCuenta(){
         if (negotipcue.insertar(tipocuenta.getTdcNombre())==1) {
-            mensaje="Se insertó";
-        }
-       else {
-            mensaje="No se pudo insertar";
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                    "Correcto!", "Tipo de Cuenta ingresada correctamente"));
+        } else {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "Error!", "Error al insertar el Tipo de Cuenta"));
         }
     }
     
@@ -41,34 +42,34 @@ public class tipocuentaController implements Serializable {
          
         tipocuenta.setTdcNombre(negotipcue.buscar(tipocuenta.getTdcCodigo()).get(0));
 
-         if(tipocuenta.getTdcNombre() != null)
-         {
-             mensaje="Se encontró";
-         }
-         else
-         {
-             mensaje="No se encontró";
-         } 
+         if(tipocuenta.getTdcNombre() != null) {
+             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                    "Correcto!", "Tipo de Cuenta encontrada"));
+        } else {
+             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "Error!", "Error al encontrar el Tipo de Cuenta"));
+        }
     }
     
     public void modificarTipoCuenta(){
         
         if (negotipcue.modificar(tipocuenta.getTdcCodigo(),tipocuenta.getTdcNombre())==1) {
-            mensaje="Se modificó";
-        }
-        else {
-            mensaje="No se pudo modificar" + tipocuenta.getTdcCodigo();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                    "Correcto!", "Tipo de Cuenta modificada correctamente"));
+        } else {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "Error!", "Error al modificar el Tipo de Cuenta"));
         }
     }
     public void eliminarTipoCuenta(){
         
         if(negotipcue.eliminar(tipocuenta.getTdcCodigo()) == 1) {
-            
-            mensaje="Se eliminó";
-            
-        } 
-        else {
-           mensaje="No se pudo eliminar" ;
+
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                    "Correcto!", "Tipo de Cuenta eliminada correctamente"));
+        } else {
+             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "Error!", "Error al eliminar el Tipo de Cuenta"));
         }
     }
     public Tipocuenta getTipocuenta() {
@@ -78,16 +79,4 @@ public class tipocuentaController implements Serializable {
     public void setTipocuenta(Tipocuenta tipocuenta) {
         this.tipocuenta = tipocuenta;
     }
-
-    public String getMensaje() {
-        return mensaje;
-    }
-
-    public void setMensaje(String mensaje) {
-        this.mensaje = mensaje;
-    }
-    
-    
-    
-    
 }
