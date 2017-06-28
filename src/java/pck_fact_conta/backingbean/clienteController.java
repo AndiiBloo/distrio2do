@@ -10,7 +10,7 @@ import pck_fact_conta.entidades.Cliente;
 import pck_fact_conta.negocio.negocio_cliente;
 
 @ManagedBean
-@SessionScoped
+@ViewScoped
 public class clienteController implements Serializable {
     
     private Cliente cliente;
