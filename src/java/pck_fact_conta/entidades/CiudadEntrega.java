@@ -23,7 +23,9 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "CiudadEntrega.findAll", query = "SELECT c FROM CiudadEntrega c")
     , @NamedQuery(name = "CiudadEntrega.findByCiuCodigo", query = "SELECT c FROM CiudadEntrega c WHERE c.ciuCodigo = :ciuCodigo")
-    , @NamedQuery(name = "CiudadEntrega.findByCiuNombre", query = "SELECT c FROM CiudadEntrega c WHERE c.ciuNombre = :ciuNombre")})
+    , @NamedQuery(name = "CiudadEntrega.findByCiuNombre", query = "SELECT c FROM CiudadEntrega c WHERE c.ciuNombre = :ciuNombre")
+    , @NamedQuery(name = "CiudadEntrega.orderCodigo", query = "SELECT c FROM CiudadEntrega c ORDER BY c.ciuCodigo")
+    , @NamedQuery(name = "CiudadEntrega.orderNombre", query = "SELECT c FROM CiudadEntrega c ORDER BY c.ciuNombre")})
 public class CiudadEntrega implements Serializable {
 
     private static final long serialVersionUID = 1L;

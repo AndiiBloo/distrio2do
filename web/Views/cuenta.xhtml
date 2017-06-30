@@ -21,10 +21,10 @@
                     <h:outputLabel for="nombre" value="Nombre:"/>        
                     <p:inputText id="nombre" value="#{cuentaController.cuenta.cueNombre}"/>
                     <h:outputLabel for="tipo" value="Tipo Cuenta:"/>
-                    <p:selectOneMenu id="tipo" value="#{cuentaController.codigo}" effect="fade" >
+                    <p:selectOneMenu id="tipo" value="#{cuentaController.codigo}" effect="fade">
                         <f:selectItem itemLabel="#{cuentaController.codigo}" itemValue="" />
-                        <f:selectItems value="#{cuentaController.tiposcuenta}" var="tipocuenta" itemLabel="#{tipocuenta.tdcNombre}" itemValue="#{tipocuenta.tdcCodigo}"  />                        
-                    </p:selectOneMenu>                    
+                        <f:selectItems value="#{cuentaController.tiposcuenta}" var="tipocuenta" itemLabel="#{tipocuenta.tdcNombre}" itemValue="#{tipocuenta.tdcCodigo}"/>
+                    </p:selectOneMenu>
                 </h:panelGrid>
                 <br/>
                 <h:panelGrid columns="5">
