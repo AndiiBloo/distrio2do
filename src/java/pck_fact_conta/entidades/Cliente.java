@@ -23,14 +23,16 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Cliente.findAll", query = "SELECT c FROM Cliente c")
     , @NamedQuery(name = "Cliente.findByCliRuc", query = "SELECT c FROM Cliente c WHERE c.cliRuc = :cliRuc")
     , @NamedQuery(name = "Cliente.findByCliNombre", query = "SELECT c FROM Cliente c WHERE c.cliNombre = :cliNombre")
-    , @NamedQuery(name = "Cliente.findByCliDireccion", query = "SELECT c FROM Cliente c WHERE c.cliDireccion = :cliDireccion")})
+    , @NamedQuery(name = "Cliente.findByCliDireccion", query = "SELECT c FROM Cliente c WHERE c.cliDireccion = :cliDireccion")
+    , @NamedQuery(name = "Cliente.orderRuc", query = "SELECT c FROM Cliente c ORDER BY c.cliRuc")
+    , @NamedQuery(name = "Cliente.orderNombre", query = "SELECT c FROM Cliente c ORDER BY c.cliNombre")
+    , @NamedQuery(name = "Cliente.orderDireccion", query = "SELECT c FROM Cliente c ORDER BY c.cliDireccion")})
+
 public class Cliente implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 13)
     @Column(name = "CLI_RUC")
     private String cliRuc;
     @Basic(optional = false)

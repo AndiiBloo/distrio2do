@@ -1,14 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pck_fact_conta.backingbean;
-
-/**
- *
- * @author Marco Rodriguez
- */
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -52,6 +42,7 @@ public class cuentaController implements Serializable {
         } else {
              FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
                     "Error!", "Error al insertar la Cuenta"));
+             
         }
     }
     public void obtenerCuenta() {
@@ -64,6 +55,7 @@ public class cuentaController implements Serializable {
         } else {
              FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
                     "Error!", "Error al encontrar la Cuenta"));
+             cuenta = new Cuenta();
         }
     }
     public void modificarCuenta() {
