@@ -46,6 +46,9 @@ public class Comprobantecontabilidad implements Serializable {
     private String comObservaciones;
 
     public Comprobantecontabilidad() {
+        comNumero = BigDecimal.ZERO;
+        comFecha = "";
+        comObservaciones = "";
     }
 
     public Comprobantecontabilidad(BigDecimal comNumero) {

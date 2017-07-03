@@ -41,8 +41,6 @@ public class negocio_comprobante
     {
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist2_fact_contaPU");
         EntityManager em1 = factory.createEntityManager();
-        pck_fact_conta.entidades.Detallecomprobantecontabilidad det=new Detallecomprobantecontabilidad();
-        em1.createNamedQuery("Detallecomprobantecontabilidad.deleteComNumero").setParameter("comNumero",new Comprobantecontabilidad(codigo)).getResultList();
         pck_fact_conta.entidades.Comprobantecontabilidad c1 = new pck_fact_conta.entidades.Comprobantecontabilidad();                  
         c1.setComNumero(codigo);            
         try{
@@ -83,9 +81,9 @@ public class negocio_comprobante
         return validar;
      }
      
-    public List<String> buscar(BigDecimal codigo)
+    public List<Comprobantecontabilidad> buscar(BigDecimal codigo)
     {
-        List<String> datos = new ArrayList<>();
+        List<Comprobantecontabilidad> datos = new ArrayList<>();
         String fecha;
         String observaciones;
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist2_fact_contaPU");
@@ -93,19 +91,14 @@ public class negocio_comprobante
         pck_fact_conta.entidades.Comprobantecontabilidad c1 = new pck_fact_conta.entidades.Comprobantecontabilidad();                  
         
         try{
-            c1 = em1.find(Comprobantecontabilidad.class,codigo);
-            fecha=c1.getComFecha();
-            observaciones=c1.getComObservaciones();
-            datos.add(fecha);
-            datos.add(observaciones);
+            c1 = em1.find(Comprobantecontabilidad.class,codigo);            
+            datos.add(c1);
         }catch 
                 (Exception ex)
         {
             System.out.println(ex.getMessage()); 
-            fecha=null;
-            observaciones=null;
-            datos.add(fecha);
-            datos.add(observaciones);
+            c1 = null;
+            datos.add(c1);
         } 
         em1.close();
         factory.close();

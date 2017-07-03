@@ -46,6 +46,10 @@ public class Usuarios implements Serializable {
     private BigInteger usRol;
 
     public Usuarios() {
+        this.usCodigo = BigDecimal.ZERO;
+        this.usNombre = "";
+        this.usPassword = "";
+        this.usRol = BigInteger.ZERO;
     }
 
     public Usuarios(BigDecimal usCodigo) {

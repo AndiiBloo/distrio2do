@@ -175,22 +175,7 @@ String ls_mensaje="";
                    is_pantalla=desplegar_pantalla("","","","","");                  
                    is_pantalla+=ls_mensaje;
                 }
-                if(is_boton.equals("Buscar"))
-                {  ls_fecha=comprobante.buscar(BigDecimal.valueOf(Double.valueOf(ls_codigo))).get(0);
-                    ls_obserbacion=comprobante.buscar(BigDecimal.valueOf(Double.valueOf(ls_codigo))).get(1);
-                    
-                   if(ls_fecha!=null)
-                   {
-                       ls_mensaje="Se encontró";
-                   }
-                   else
-                   {
-                       ls_mensaje="No se encontró";
-                   } 
-                   is_pantalla=desplegar_pantalla(ls_codigo,ls_fecha,ls_obserbacion,"","");                  
-                   is_pantalla+=ls_mensaje;
-                    
-                }
+                
                 if(is_boton.equals("Regresar"))
                 {
                     response.sendRedirect("servlet_menu");

@@ -6,7 +6,7 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Cuenta</title>
-        <f:event type="preRenderView" listener="#{menuController.verificarSesion()}"/>
+        
     </h:head>
     <h:body>
         <center>
@@ -21,8 +21,7 @@
                     <h:outputLabel for="nombre" value="Nombre:"/>        
                     <p:inputText id="nombre" value="#{cuentaController.cuenta.cueNombre}"/>
                     <h:outputLabel for="tipo" value="Tipo Cuenta:"/>
-                    <p:selectOneMenu id="tipo" value="#{cuentaController.codigo}" effect="fade" >
-                        <f:selectItem itemLabel="#{cuentaController.codigo}" itemValue="" />
+                    <p:selectOneMenu id="tipo" value="#{cuentaController.cuenta.tdcCodigo.tdcCodigo}" effect="fade" >
                         <f:selectItems value="#{cuentaController.tiposcuenta}" var="tipocuenta" itemLabel="#{tipocuenta.tdcNombre}" itemValue="#{tipocuenta.tdcCodigo}"  />                        
                     </p:selectOneMenu>                    
                 </h:panelGrid>

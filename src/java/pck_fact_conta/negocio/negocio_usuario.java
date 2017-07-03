@@ -95,7 +95,9 @@ public class negocio_usuario {
             us.add(c1);
         }catch (Exception ex){
             System.out.println(ex.getMessage());
-            us = null;
+            c1 = null;
+            us.add(c1);
+            
         }finally{
             em1.close();
             factory.close();

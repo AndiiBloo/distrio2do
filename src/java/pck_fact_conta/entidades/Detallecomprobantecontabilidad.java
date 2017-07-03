@@ -19,10 +19,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Detallecomprobantecontabilidad.findAll", query = "SELECT d FROM Detallecomprobantecontabilidad d")
+    , @NamedQuery(name = "Detallecomprobantecontabilidad.findByComNumero", query = "SELECT d FROM Detallecomprobantecontabilidad d WHERE d.comNumero = :comNumero")
     , @NamedQuery(name = "Detallecomprobantecontabilidad.findByDccCodigo", query = "SELECT d FROM Detallecomprobantecontabilidad d WHERE d.dccCodigo = :dccCodigo")
     , @NamedQuery(name = "Detallecomprobantecontabilidad.findByDccDebe", query = "SELECT d FROM Detallecomprobantecontabilidad d WHERE d.dccDebe = :dccDebe")
     , @NamedQuery(name = "Detallecomprobantecontabilidad.findByDccHaber", query = "SELECT d FROM Detallecomprobantecontabilidad d WHERE d.dccHaber = :dccHaber")
-    , @NamedQuery(name = "Detallecomprobantecontabilidad.deleteComNumero", query = "SELECT d FROM Detallecomprobantecontabilidad d WHERE d.comNumero = :comNumero")    })
+    , @NamedQuery(name = "Detallecomprobantecontabilidad.deleteComNumero", query = "DELETE FROM Detallecomprobantecontabilidad d WHERE d.comNumero = :comNumero")    })
 
 public class Detallecomprobantecontabilidad implements Serializable {
 
@@ -49,6 +50,8 @@ public class Detallecomprobantecontabilidad implements Serializable {
         dccCodigo=BigDecimal.ZERO;
         dccHaber=0.0;
         dccDebe=0.0;
+        comNumero = new Comprobantecontabilidad();
+        cueCodigo = new Cuenta();
     }
 
     public Detallecomprobantecontabilidad(BigDecimal dccCodigo) {

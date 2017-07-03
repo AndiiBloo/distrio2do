@@ -29,6 +29,16 @@
                     <p:commandButton ajax="false" value="Buscar" id="btnBuscar" action="#{tipocuentaController.buscarTipoCuenta}"/>
                     <p:button value="Regresar" outcome="menu?faces-redirect=true"/>
                 </h:panelGrid>
+                <br/>
+                <h:panelGrid columns="4">
+                    <p:selectOneMenu id="tipo" value="#{tipocuentaController.campo}" effect="fade" >
+                        <f:selectItem itemLabel="#{tipocuentaController.campo}" itemValue="" />
+                        <f:selectItems value="#{tipocuentaController.campos}" />                        
+                    </p:selectOneMenu> 
+                    <p:commandButton ajax="false" value="Ordenar" id="btnOrdenar" action="#{tipocuentaController.ordenar}"/>
+                    <p:commandButton ajax="false" value="Anterior" id="btnAnterior" action="#{tipocuentaController.anterior}"/>
+                    <p:commandButton ajax="false" value="Siguiente" id="btnSiguiente" action="#{tipocuentaController.siguiente}"/>                    
+                </h:panelGrid>
             </p:panel>
         </h:form>
     </h:body>
