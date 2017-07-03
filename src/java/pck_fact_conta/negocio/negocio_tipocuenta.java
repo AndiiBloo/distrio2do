@@ -110,8 +110,24 @@ public class negocio_tipocuenta
         factory.close();
         return datos;
     }
-     public void procesar()
-     {
-	// programar el código de la regla de negocio         
-     }    
+    public List<Tipocuenta> mostrarPorCodigo()
+    {
+        List<Tipocuenta> datos = new ArrayList<>();
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist2_fact_contaPU");
+        EntityManager em1 = factory.createEntityManager();        
+        datos=em1.createNamedQuery("Tipocuenta.sortCodigo").getResultList();        
+        em1.close();
+        factory.close();
+        return datos;
+    }
+    public List<Tipocuenta> mostrarPorNombre()
+    {
+        List<Tipocuenta> datos = new ArrayList<>();
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist2_fact_contaPU");
+        EntityManager em1 = factory.createEntityManager();        
+        datos=em1.createNamedQuery("Tipocuenta.sortName").getResultList();        
+        em1.close();
+        factory.close();
+        return datos;
+    }   
 }
