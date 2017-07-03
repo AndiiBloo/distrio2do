@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import org.primefaces.event.RowEditEvent;
 import pck_fact_conta.entidades.Articulos;
@@ -20,7 +20,7 @@ import pck_fact_conta.negocio.negocio_cliente;
 import pck_fact_conta.negocio.negocio_factura;
 
 @ManagedBean
-@SessionScoped
+@ViewScoped
 public class facturacionController implements Serializable{
     private Factura factura;
     private Cliente cliente;
