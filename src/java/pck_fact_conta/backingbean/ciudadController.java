@@ -5,18 +5,16 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import pck_fact_conta.entidades.CiudadEntrega;
-import pck_fact_conta.entidades.Cliente;
 import pck_fact_conta.negocio.negocio_ciudad;
 
 @ManagedBean
-@SessionScoped
+@ViewScoped
 public class ciudadController implements Serializable{
     
     private CiudadEntrega ciudad;

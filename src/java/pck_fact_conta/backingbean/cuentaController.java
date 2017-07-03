@@ -4,8 +4,8 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import pck_fact_conta.entidades.Cuenta;
 import pck_fact_conta.negocio.negocio_cuenta;
@@ -13,7 +13,7 @@ import pck_fact_conta.negocio.negocio_tipocuenta;
 import pck_fact_conta.entidades.Tipocuenta;
 
 @ManagedBean
-@SessionScoped
+@ViewScoped
 public class cuentaController implements Serializable {
     
     private Cuenta cuenta;
