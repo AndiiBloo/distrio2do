@@ -9,7 +9,9 @@
         <f:event type="preRenderView" listener="#{menuController.verificarSesion()}"/>
     </h:head>
     <h:body>
-        <p:outputLabel style="font-weight: bold; font-size: 30px;" id="titulo" value="Tabla Simple - Clientes"/>
+        <center>
+            <p:outputLabel style="font-weight: bold; font-size: 30px;" id="titulo" value="Tabla Simple - Clientes"/>
+        </center>
         <h:form>
             <p:messages autoUpdate="true" id="mensajes" showDetail="true" severity="info, fatal, error"/>
             <p:panel style="position:relative; margin:0 auto; width: 44%;" header="Cliente" id="panel">
@@ -46,15 +48,15 @@
                     </p:column>
                 </p:dataTable>
                 <br/>
-                <h:panelGrid columns="2">
-                    <p:selectOneMenu value="#{clienteController.orden}" >
+               <!-- <h:panelGrid columns="2">
+                    <p:selectOneMenu value="{clienteController.orden}" >
                         <f:selectItem itemLabel="Seleccione el criterio" itemValue=""/>
                         <f:selectItem itemLabel="Ruc" itemValue="1"/>
                         <f:selectItem itemLabel="Nombre" itemValue="2"/>
                         <f:selectItem itemLabel="Dirección" itemValue="3"/>
                     </p:selectOneMenu>
-                    <p:commandButton ajax="false" value="Ordenar" action="#{clienteController.ordenarLista}"/>
-                </h:panelGrid>
+                    <p:commandButton ajax="false" value="Ordenar" action="{clienteController.ordenarLista}"/>
+                </h:panelGrid>-->
             </p:panel>
         </h:form>
     </h:body>

@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Reportes</title>
+        <f:event type="preRenderView" listener="#{menuController.verificarSesion()}"/>
+    </h:head>
+    <h:body>
+        <center>
+            <p:outputLabel style="font-weight: bold; font-size: 30px;" id="titulo" value="Reportes Facturacion"/>
+        </center>
+        <h:form id="principal">
+            <p:messages autoUpdate="true" id="mensajes" showDetail="true" severity="info, fatal, error"/>
+            <p:panel style="position:relative; margin:0 auto;" header="Reportes" id="panel">
+                <h:panelGrid columns="2" style="position:relative; margin:0 auto;">
+                    <p:calendar
+                        id="startdate"
+                        value="#{reporteFacturacionController.fechaI}">
+                    </p:calendar>                   
+                    <p:calendar
+                        id="enddate"
+                        value="#{reporteFacturacionController.fechaF}"
+                        mindate="#{reporteFacturacionController.fechaI}">
+                    </p:calendar>
+                </h:panelGrid>
+                <h:panelGrid columns="3">
+                    <p:commandButton id="reporte1" value="Generar Reporte 1" icon="ui-icon-search" 
+                                    update=":principal" 
+                                    action="#{reporteFacturacionController.generarReporte1}"
+                                    onstart="PF('statusDialog').show()" oncomplete="PF('statusDialog').hide()"/>
+                    <p:commandButton id="reporte2" value="Generar Reporte 2" icon="ui-icon-search" 
+                                    update=":principal:panel" 
+                                    action="#{reporteFacturacionController.generarReporte2}"
+                                    onstart="PF('statusDialog').show()" oncomplete="PF('statusDialog').hide()"/>
+                    <p:button value="Regresar" outcome="menu?faces-redirect=true"/>
+                </h:panelGrid>
+            
+                <p:accordionPanel id="acordpanReporte" activeIndex="-1">
+                    <p:tab title="Reporte">
+                        <p:panel id="pdf" visible="#{reporteFacturacionController.controlPDF}">
+                            <object type="application/pdf" data="./../reportes/pdf/#{reporteFacturacionController.nombreArchivoPdf}" width="100%" height="800px"></object>
+                        </p:panel> 
+                    </p:tab>
+                </p:accordionPanel>
+            </p:panel>
+        </h:form>
+        <p:dialog modal="true" widgetVar="statusDialog" header="Espere por favor...." draggable="false" closable="false" resizable="false"/>
+        <script type="text/javascript">
+            function start() {
+                "PF('statusDialog').show()";
+            }
+
+            function stop() {
+                "PF('statusDialog').hide()";
+            }
+        </script>
+    </h:body>
+</html>
+
