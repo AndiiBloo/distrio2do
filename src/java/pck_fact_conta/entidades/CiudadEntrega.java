@@ -99,7 +99,6 @@ public class CiudadEntrega implements Serializable {
 
     @Override
     public String toString() {
-        return "pck_pdist_fact_conta.entidades.CiudadEntrega[ ciuCodigo=" + ciuCodigo + " ]";
+        return "CiudadEntrega{" + "ciuCodigo=" + ciuCodigo + ", ciuNombre=" + ciuNombre + ", facturaList=" + facturaList + '}';
     }
-    
 }
