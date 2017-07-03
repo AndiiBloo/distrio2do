@@ -1,0 +1,104 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Factura</title>
+        <f:event type="preRenderView" listener="#{menuController.verificarSesion()}"/>
+    </h:head>
+    <h:body>
+        <center>
+            <p:outputLabel style="font-weight: bold; font-size: 30px;" id="titulo" value="Tabla Compleja - Facturación"/>
+        </center>
+        <h:form id="principal">
+            <p:messages autoUpdate="true" id="mensajes" showDetail="true" severity="info, fatal, error"/>
+            <p:panel style="position:relative; margin:0 auto; width: 100%;" header="Facturación" id="panel">
+                <h:panelGrid columns="2">
+                    <h:outputLabel for="numero" value="Número: "/>
+                    <p:inputText id="numero" value="#{facturacionController.factura.facNumero}"/>
+                    <h:outputLabel for="ruc" value="Nombre: "/>
+                    <p:selectOneMenu id="ruc" value="#{facturacionController.cliente.cliRuc}">
+                        <f:selectItem itemLabel="Seleccione uno" itemValue=""/>
+                        <f:selectItems value="#{facturacionController.clientes}" var="cliente" 
+                                       itemLabel="#{cliente.cliNombre}" itemValue="#{cliente.cliRuc}"/>
+                    </p:selectOneMenu>
+                    <h:outputLabel for="fecha" value="Fecha: "/>
+                    <p:calendar id="fecha" value="#{facturacionController.fecha}"/>
+                    <h:outputLabel for="ciudad" value="Ciudad: "/>
+                    <p:selectOneMenu id="ciudad" value="#{facturacionController.ciudad.ciuCodigo}">
+                        <f:selectItem itemLabel="Seleccione uno" itemValue=""/>
+                        <f:selectItems value="#{facturacionController.ciudades}" var="ciudad" 
+                                       itemLabel="#{ciudad.ciuNombre}" itemValue="#{ciudad.ciuCodigo}"/>
+                    </p:selectOneMenu>
+                </h:panelGrid>
+                <p:commandButton value="Agregar Artículo" type="button" onclick="PF('art').show();"/>
+                <br/>
+                <p:dataTable id="tabArticulos" value="#{facturacionController.articulos}" var="art"  rows="10"
+                         paginator="true"
+                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="5,10,15"
+                         editable="true">
+                    <p:ajax event="rowEdit" listener="#{facturacionController.editarFila}" update=":principal:mensajes"/>
+                    <p:ajax event="rowEditCancel" listener="#{facturacionController.cancelarEditar}" update="principal:mensajes"/>
+                    <p:column headerText="N°">
+                        <h:outputText value="#{art.artCodigo}"/>
+                    </p:column>
+                    <p:column headerText="Artículo">
+                        <p:cellEditor>
+                            <f:facet name="output"><h:outputText value="#{art.artNombre}"/></f:facet>
+                            <f:facet name="input"><p:inputText style="width: 100%;" value="#{art.artNombre}"/></f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column headerText="Cantidad">
+                        <p:cellEditor>
+                            <f:facet name="output"><h:outputText value="#{art.artCantidad}"/></f:facet>
+                            <f:facet name="input"><p:inputText style="width: 100%;" value="#{art.artCantidad}"/></f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column headerText="Precio">
+                        <p:cellEditor>
+                            <f:facet name="output"><h:outputText value="#{art.artPrecio}"/></f:facet>
+                            <f:facet name="input"><p:inputText style="width: 100%;" value="#{art.artPrecio}"/></f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column style="width: 5%;">
+                        <p:rowEditor/>
+                    </p:column>
+                </p:dataTable>
+                
+                <br/>
+                <h:panelGrid columns="5">
+                    <p:commandButton ajax="false" value="Ingresar" id="btnIngresar" action="#{facturacionController.ingresar}"/>
+                    <p:commandButton ajax="false" value="Eliminar" id="btnEliminar" action="#{facturacionController.eliminar}"/>
+                    <p:commandButton ajax="false" value="Modificar" id="btnModificar" action="#{facturacionController.modificar}"/>
+                    <p:commandButton ajax="false" value="Buscar" id="btnBuscar" action="#{facturacionController.buscar}"/>
+                    <p:button value="Regresar" outcome="menu?faces-redirect=true"/>
+                </h:panelGrid>
+                <br/>
+                <br/>
+                
+            </p:panel>
+        </h:form>
+        <h:form id="formDialog">
+        <p:dialog id="art" header="Agregar Artículo" widgetVar="art" modal="true" dynamic="true">
+            
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="N°: "/>
+                    <p:inputText label="Codigo" disabled="true" value="#{facturacionController.aux}"/>
+                    <h:outputLabel value="Nombre: "/>
+                    <p:inputText label="Nombre Artículo" value="#{facturacionController.articulo.artNombre}"/>
+                    <h:outputLabel value="Cantidad: "/>
+                    <p:inputText label="Cantidad Artículo" value="#{facturacionController.articulo.artCantidad}"/>
+                    <h:outputLabel value="Precio: "/>
+                    <p:inputText label="Precio Artículo" value="#{facturacionController.articulo.artPrecio}"/>
+                    <p:commandButton value="Agregar" update=":principal:tabArticulos :formDialog" action="#{facturacionController.agregarArticulo}"
+                                     oncomplete="PF('art').hide();"/>
+                    <p:commandButton value="Cancelar" onclick="PF('art').hide()"/>
+                </h:panelGrid>
+            
+        </p:dialog>
+        </h:form>
+    </h:body>
+</html>

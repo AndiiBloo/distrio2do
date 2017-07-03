@@ -12,7 +12,7 @@ import pck_fact_conta.entidades.Factura;
 
 public class negocio_articulo {
     int ok;
-    public int insertar(Factura numF, String nombreA, float precioA, BigInteger cantidadA){
+    public int insertar(Factura numF, String nombreA, double precioA, BigInteger cantidadA){
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist2_fact_contaPU");
         EntityManager em1 = factory.createEntityManager();
         pck_fact_conta.entidades.Articulos c1 = new pck_fact_conta.entidades.Articulos();                  
@@ -59,7 +59,7 @@ public class negocio_articulo {
         return ok;
     }
     
-    public int modificar(BigDecimal codigo, Factura numF, String nombreA, float precioA, BigInteger cantidadA){
+    public int modificar(BigDecimal codigo, Factura numF, String nombreA, double precioA, BigInteger cantidadA){
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist2_fact_contaPU");
         EntityManager em1 = factory.createEntityManager();
         pck_fact_conta.entidades.Articulos c1 = new pck_fact_conta.entidades.Articulos();                  
@@ -106,12 +106,14 @@ public class negocio_articulo {
         EntityManager em1 = factory.createEntityManager();
         pck_fact_conta.entidades.Articulos c1 = new pck_fact_conta.entidades.Articulos();                  
         BigDecimal codigo = null;
+        System.out.println("cod: "+numF.toString()+" "+nombreA);
         try{
-        codigo = em1.createNamedQuery("Articulos.findCod", BigDecimal.class)
+            codigo = em1.createNamedQuery("Articulos.findCod", BigDecimal.class)
                             .setParameter("facNum", numF)
                             .setParameter("artNom", nombreA).getSingleResult();
+            System.out.println(codigo);
         }catch(Exception ex){
-            System.out.println(ex.getMessage());
+            System.out.println("error cod: "+ex.getMessage());
         }finally{
             em1.close();
             factory.close();
