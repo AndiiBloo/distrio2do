@@ -67,36 +67,54 @@ public class comprobanteController implements Serializable {
     
     public void guardarComprobante(){
         this.detalle = new Detallecomprobantecontabilidad();
-        if(neg_com.insertar(this.comprobante.getComFecha(), this.comprobante.getComObservaciones()) == 1) {
+        if(this.verificarCuadre()) {
+            if(neg_com.insertar(this.comprobante.getComFecha(), this.comprobante.getComObservaciones()) == 1) {
             this.comprobante.setComNumero(this.neg_com.maximo());
             for (int i=0;i<this.detalles.size();i++) {
                 
-                this.neg_det.insertar(this.comprobante, this.detalles.get(i).getCueCodigo(), this.detalles.get(i).getDccDebe(), this.detalles.get(i).getDccHaber());
-                
+                if (this.detalles.get(i).getDccDebe().equals(0.0) && this.detalles.get(i).getDccHaber().equals(0.0)) {
+                    
+                } else {
+                    this.neg_det.insertar(this.comprobante, this.detalles.get(i).getCueCodigo(), this.detalles.get(i).getDccDebe(), this.detalles.get(i).getDccHaber());
+
+                }
             }
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-                    "Correcto!", "Comprobante insertado correctamente"));
-            
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                        "Correcto!", "Comprobante insertado correctamente"));
+
+            } else {
+                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                        "Error!", "Error al insertar el Comprobante"));
+            }
         } else {
-             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                    "Error!", "Error al insertar el Comprobante"));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                        "Error!", "El detalle no esta cuadrado"));
         }
+        
     }
     public void modificarComprobante() {
-        
-        if(neg_com.modificar(this.comprobante.getComNumero(),this.comprobante.getComFecha(), this.comprobante.getComObservaciones()) == 1) {
-            this.comprobante.setComNumero(this.neg_com.maximo());
-            for (int i=0;i<this.detalles.size();i++) {
-                    this.neg_det.modificar(this.comprobante,this.detalles.get(i).getDccCodigo(), this.detalles.get(i).getCueCodigo(), this.detalles.get(i).getDccDebe(), this.detalles.get(i).getDccHaber());
-                
+        this.detalle = new Detallecomprobantecontabilidad();
+        if(this.verificarCuadre()) {
+            if(neg_com.modificar(this.comprobante.getComNumero(),this.comprobante.getComFecha(), this.comprobante.getComObservaciones()) == 1) {                
+                for (int i=0;i<this.detalles.size();i++) {
+                    if (this.detalles.get(i).getDccDebe().equals(0.0) && this.detalles.get(i).getDccHaber().equals(0.0)) {
+                        
+                    } else {
+                        this.neg_det.modificar(this.comprobante,this.detalles.get(i).getDccCodigo(), this.detalles.get(i).getCueCodigo(), this.detalles.get(i).getDccDebe(), this.detalles.get(i).getDccHaber());
+                    }
+                }
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                        "Correcto!", "Comprobante modifcado correctamente"));
+
+            } else {
+                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                        "Error!", "Error al modificar el Comprobante"));
             }
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-                    "Correcto!", "Comprobante modifcado correctamente"));
-            
-        } else {
-             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                    "Error!", "Error al modificar el Comprobante"));
+        }else {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                        "Error!", "El detalle no esta cuadrado"));
         }
+            
         
     }
     public void buscarComprobante() {
@@ -124,6 +142,19 @@ public class comprobanteController implements Serializable {
              FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
                     "Error!", "Error al eliminar el Comprobante"));
         }
+    }
+    private Boolean verificarCuadre(){
+        Double total_debe = 0.0;
+        Double total_haber = 0.0;
+        Boolean valido = false;
+        for(int i = 0; i < this.detalles.size(); i++) {
+            total_debe += this.detalles.get(i).getDccDebe();
+            total_haber += this.detalles.get(i).getDccHaber();
+        }
+        if (total_debe.equals(total_haber)) {
+            valido = true;
+        }
+        return valido;
     }
     public Comprobantecontabilidad getComprobante() {
         return comprobante;

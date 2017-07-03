@@ -30,10 +30,9 @@ public class negocio_usuario {
             ex.printStackTrace();
             //System.out.println(ex.getMessage());
             ok = 0;
-        }finally{
-            em1.close();
-            factory.close();
         }
+        em1.close();
+        factory.close();
         return ok;
     }
     
@@ -51,10 +50,9 @@ public class negocio_usuario {
         }catch (Exception ex){
             System.out.println(ex.getMessage());
             ok = 0;
-        }finally{
-            em1.close();
-            factory.close();
         }
+        em1.close();
+        factory.close();
         return ok;
     }
     
@@ -77,10 +75,9 @@ public class negocio_usuario {
         }catch (Exception ex){
             System.out.println(ex.getMessage());
             ok = 0;
-        }finally{
-            em1.close();
-            factory.close();
         }
+        em1.close();
+        factory.close();
         return ok;
     }
     
@@ -97,11 +94,9 @@ public class negocio_usuario {
             System.out.println(ex.getMessage());
             c1 = null;
             us.add(c1);
-            
-        }finally{
-            em1.close();
-            factory.close();
         }
+        em1.close();
+        factory.close();
         return us;
     }
 
@@ -120,10 +115,9 @@ public class negocio_usuario {
         }catch (Exception ex){
             System.out.println(ex.getMessage());
             ok = 0;
-        }finally{
-            em1.close();
-            factory.close();
         }
+        em1.close();
+        factory.close();
         return null;
      }
 }

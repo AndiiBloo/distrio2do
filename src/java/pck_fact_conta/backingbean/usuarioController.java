@@ -62,9 +62,9 @@ public class usuarioController {
         }
     }
     public void buscarUsuario() {
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-                    "Correcto!", "Usuario ingresado correctamente" +this.usuario.getUsCodigo()));
+        
         this.usuario = this.neg_us.buscar(this.usuario.getUsCodigo()).get(0);
+        
         if (this.usuario != null) {
            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
                     "Correcto!", "Usuario encontrado"));

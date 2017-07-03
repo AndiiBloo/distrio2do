@@ -13,11 +13,18 @@
             <p:outputLabel style="font-weight: bold; font-size: 30px;" id="titulo" value="Menú de opciones"/>
         </center>
         <h:form>
-            <p:button value="Clientes" rendered="#{menuController.botones.get(0)}" outcome="cliente?faces-redirect=true"/>
-            <p:button value="Ciudades" rendered="#{menuController.botones.get(1)}" outcome="ciudad?faces-redirect=true"/>
-            <p:button value="Cuenta" rendered="#{menuController.botones.get(4)}" outcome="cuenta?faces-redirect=true"/>
-            <p:button value="Tipo Cuenta" rendered="#{menuController.botones.get(5)}" outcome="tipocuenta?faces-redirect=true"/>
-            <p:commandButton actionListener="#{menuController.cerrarSesion()}" value="Cerrar Sesión" action="/index?faces-redirect=true"/>
+            <p:commandButton style="float: right;" actionListener="#{menuController.cerrarSesion()}" value="Cerrar Sesión" action="/index?faces-redirect=true"/>
+            <h:panelGrid columns="1">
+                <p:button value="Clientes" rendered="#{menuController.botones.get(0)}" outcome="cliente?faces-redirect=true"/>
+                <p:button value="Ciudades" rendered="#{menuController.botones.get(1)}" outcome="ciudad?faces-redirect=true"/>
+                <p:button value="Facturación" rendered="#{menuController.botones.get(2)}" outcome="facturacion?faces-redirect=true"/>
+                <p:button value="Reportes Facturación" rendered="#{menuController.botones.get(3)}" outcome="reportesFacturacion?faces-redirect=true"/>
+                <p:button value="Cuenta" rendered="#{menuController.botones.get(4)}" outcome="cuenta?faces-redirect=true"/>
+                <p:button value="Tipo Cuenta" rendered="#{menuController.botones.get(5)}" outcome="tipocuenta?faces-redirect=true"/>
+                <p:button value="Comprobante Contabilidad" rendered="#{menuController.botones.get(6)}" outcome="comprobante?faces-redirect=true"/>
+                <p:button value="Reportes Contabilidad" rendered="#{menuController.botones.get(7)}" outcome="reportesContabilidad?faces-redirect=true"/>
+                <p:button value="Administrar Usuarios" rendered="#{menuController.botones.get(8)}" outcome="usuario?faces-redirect=true"/>
+            </h:panelGrid>
         </h:form>
     </h:body>
 </html>

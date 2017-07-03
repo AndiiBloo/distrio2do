@@ -29,6 +29,27 @@
                     <p:commandButton ajax="false" value="Buscar" id="btnBuscar" action="#{ciudadController.buscar}"/>
                     <p:button value="Regresar" outcome="menu?faces-redirect=true"/>
                 </h:panelGrid>
+                <br/>
+                <br/>
+                
+                <p:dataTable value="#{ciudadController.ciudades}" var="ciudad">
+                    <p:column headerText="Codigo">
+                        <h:outputText value="#{ciudad.ciuCodigo}" />
+                    </p:column>
+
+                    <p:column headerText="Nombre">
+                        <h:outputText value="#{ciudad.ciuNombre}" />
+                    </p:column>
+                </p:dataTable>
+                <br/>
+                <!--<h:panelGrid columns="2">
+                    <p:selectOneMenu value="{ciudadController.orden}" >
+                        <f:selectItem itemLabel="Seleccione el criterio" itemValue=""/>
+                        <f:selectItem itemLabel="Codigo" itemValue="1"/>
+                        <f:selectItem itemLabel="Nombre" itemValue="2"/>
+                    </p:selectOneMenu>
+                    <p:commandButton ajax="false" value="Ordenar" action="{ciudadController.ordenarLista}"/>
+                </h:panelGrid>-->
             </p:panel>
         </h:form>
     </h:body>

@@ -18,8 +18,8 @@
                 <h:panelGrid columns="2" style="position:relative; margin:0 auto;">
                     <h:outputLabel for="codigo" value="Codigo:"/>
                     <p:inputText id="codigo" value="#{comprobanteController.comprobante.comNumero}"/>
-                    <h:outputLabel for="fecha" value="Fecha:"/>        
-                    <p:inputText id="fecha" value="#{comprobanteController.comprobante.comFecha}"/>
+                    <h:outputLabel value="Fecha:"/>        
+                    <p:calendar value="#{comprobanteController.comprobante.comFecha}"/>
                     <h:outputLabel for="observacion" value="Observaciones:"/>        
                     <p:inputText id="observacion" value="#{comprobanteController.comprobante.comObservaciones}"/>
                 </h:panelGrid>
@@ -48,7 +48,7 @@
                 <h:panelGrid columns="5">
                     <p:commandButton ajax="false" value="Insertar" id="btnInsertar" action="#{comprobanteController.guardarComprobante}"/>
                     <p:commandButton ajax="false" value="Eliminar" id="btnEliminar" action="#{comprobanteController.eliminarComprobante}"/>
-                    <p:commandButton ajax="false" value="Modificar" id="btnModificar" action="#{tipocuentaController.modificarTipoCuenta}"/>
+                    <p:commandButton ajax="false" value="Modificar" id="btnModificar" action="#{comprobanteController.modificarComprobante}"/>
                     <p:commandButton ajax="false" value="Buscar" id="btnBuscar" action="#{comprobanteController.buscarComprobante}"/>
                     <p:button value="Regresar" outcome="menu?faces-redirect=true"/>
                 </h:panelGrid>

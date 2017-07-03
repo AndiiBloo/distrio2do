@@ -35,11 +35,9 @@ public class Factura implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Id
     @Basic(optional = false)
-    @NotNull
     @Column(name = "FAC_NUMERO")
     private BigDecimal facNumero;
     @Basic(optional = false)
-    @NotNull
     @Column(name = "FAC_FECHA")
     @Temporal(TemporalType.TIMESTAMP)
     private Date facFecha;

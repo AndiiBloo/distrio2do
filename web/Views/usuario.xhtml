@@ -6,7 +6,7 @@
       xmlns:p="http://primefaces.org/ui">
     <h:head>
         <title>Usuarios</title>
-        
+        <f:event type="preRenderView" listener="#{menuController.verificarSesion()}"/>
     </h:head>
     <h:body>
         <p:outputLabel style="font-weight: bold; font-size: 30px;" id="titulo" value="Aministracion - Usuarios"/>
@@ -15,7 +15,7 @@
             <p:panel style="position:relative; margin:0 auto; width: 44%;" header="Usuario" id="panel">
                 <h:panelGrid columns="2" style="position:relative; margin:0 auto;">
                     <h:outputLabel for="codigo" value="Codigo: "/>
-                    <p:inputText id="codigo" value="#{usuarioController.usuario.usCodigo}" required="true"/>
+                    <p:inputText id="codigo" value="#{usuarioController.usuario.usCodigo}" />
                     <h:outputLabel for="nombre" value="Nombre: "/>
                     <p:inputText id="nombre" value="#{usuarioController.usuario.usNombre}"/>
                     <h:outputLabel for="password" value="Password: "/>

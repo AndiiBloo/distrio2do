@@ -9,13 +9,15 @@
         <f:event type="preRenderView" listener="#{menuController.verificarSesion()}"/>
     </h:head>
     <h:body>
-        <p:outputLabel style="font-weight: bold; font-size: 30px;" id="titulo" value="Tabla Simple - Clientes"/>
+        <center>
+            <p:outputLabel style="font-weight: bold; font-size: 30px;" id="titulo" value="Tabla Simple - Clientes"/>
+        </center>
         <h:form>
             <p:messages autoUpdate="true" id="mensajes" showDetail="true" severity="info, fatal, error"/>
             <p:panel style="position:relative; margin:0 auto; width: 44%;" header="Cliente" id="panel">
                 <h:panelGrid columns="2" style="position:relative; margin:0 auto;">
                     <h:outputLabel for="ruc" value="Ruc: "/>
-                    <p:inputText id="ruc" value="#{clienteController.cliente.cliRuc}" required="true"/>
+                    <p:inputText id="ruc" value="#{clienteController.cliente.cliRuc}"/>
                     <h:outputLabel for="nombre" value="Nombre: "/>
                     <p:inputText id="nombre" value="#{clienteController.cliente.cliNombre}"/>
                     <h:outputLabel for="direccion" value="Dirección: "/>
@@ -29,6 +31,32 @@
                     <p:commandButton ajax="false" value="Buscar" id="btnBuscar" action="#{clienteController.buscar}"/>
                     <p:button value="Regresar" outcome="menu?faces-redirect=true"/>
                 </h:panelGrid>
+                
+                <br/>
+                <br/>
+                <p:dataTable value="#{clienteController.clientes}" var="cliente">
+                    <p:column headerText="Ruc">
+                        <h:outputText value="#{cliente.cliRuc}" />
+                    </p:column>
+
+                    <p:column headerText="Nombre">
+                        <h:outputText value="#{cliente.cliNombre}" />
+                    </p:column>
+                    
+                    <p:column headerText="Direccion">
+                        <h:outputText value="#{cliente.cliDireccion}" />
+                    </p:column>
+                </p:dataTable>
+                <br/>
+               <!-- <h:panelGrid columns="2">
+                    <p:selectOneMenu value="{clienteController.orden}" >
+                        <f:selectItem itemLabel="Seleccione el criterio" itemValue=""/>
+                        <f:selectItem itemLabel="Ruc" itemValue="1"/>
+                        <f:selectItem itemLabel="Nombre" itemValue="2"/>
+                        <f:selectItem itemLabel="Dirección" itemValue="3"/>
+                    </p:selectOneMenu>
+                    <p:commandButton ajax="false" value="Ordenar" action="{clienteController.ordenarLista}"/>
+                </h:panelGrid>-->
             </p:panel>
         </h:form>
     </h:body>

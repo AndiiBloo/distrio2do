@@ -34,16 +34,12 @@ public class Articulos implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Id
     @Basic(optional = false)
-    @NotNull
     @Column(name = "ART_CODIGO")
     private BigDecimal artCodigo;
     @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 100)
     @Column(name = "ART_NOMBRE")
     private String artNombre;
     @Basic(optional = false)
-    @NotNull
     @Column(name = "ART_PRECIO")
     private double artPrecio;
     @Column(name = "ART_CANTIDAD")
@@ -127,7 +123,6 @@ public class Articulos implements Serializable {
 
     @Override
     public String toString() {
-        return "pck_pdist_fact_conta.entidades.Articulos[ artCodigo=" + artCodigo + " ]";
+        return "Articulos{" + "artCodigo=" + artCodigo + ", artNombre=" + artNombre + ", artPrecio=" + artPrecio + ", artCantidad=" + artCantidad + ", facNumero=" + facNumero + '}';
     }
-    
 }

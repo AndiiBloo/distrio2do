@@ -1,22 +1,30 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package pck_fact_conta.entidades;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Collection;
+import java.util.Date;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
+/**
+ *
+ * @author Marco Rodriguez
+ */
 @Entity
 @Table(name = "COMPROBANTECONTABILIDAD")
 @XmlRootElement
@@ -25,11 +33,7 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Comprobantecontabilidad.findByComNumero", query = "SELECT c FROM Comprobantecontabilidad c WHERE c.comNumero = :comNumero")
     , @NamedQuery(name = "Comprobantecontabilidad.findByComFecha", query = "SELECT c FROM Comprobantecontabilidad c WHERE c.comFecha = :comFecha")
     , @NamedQuery(name = "Comprobantecontabilidad.findByComObservaciones", query = "SELECT c FROM Comprobantecontabilidad c WHERE c.comObservaciones = :comObservaciones")
-    , @NamedQuery(name = "Comprobantecontabilidad.maxComNumero", query = "SELECT COALESCE(MAX(c.comNumero) , 0) as Maximo FROM Comprobantecontabilidad c")})
-public class Comprobantecontabilidad implements Serializable {
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "comNumero")
-    private Collection<Detallecomprobantecontabilidad> detallecomprobantecontabilidadCollection;
+    , @NamedQuery(name = "Comprobantecontabilidad.maxComNumero", query = "SELECT COALESCE(MAX(c.comNumero) , 0) as Maximo FROM Comprobantecontabilidad c")})public class Comprobantecontabilidad implements Serializable {
 
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
@@ -38,16 +42,16 @@ public class Comprobantecontabilidad implements Serializable {
     @NotNull
     @Column(name = "COM_NUMERO")
     private BigDecimal comNumero;
-    @Size(max = 10)
     @Column(name = "COM_FECHA")
-    private String comFecha;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date comFecha;
     @Size(max = 200)
     @Column(name = "COM_OBSERVACIONES")
     private String comObservaciones;
 
     public Comprobantecontabilidad() {
         comNumero = BigDecimal.ZERO;
-        comFecha = "";
+        comFecha = new Date();
         comObservaciones = "";
     }
 
@@ -63,11 +67,11 @@ public class Comprobantecontabilidad implements Serializable {
         this.comNumero = comNumero;
     }
 
-    public String getComFecha() {
+    public Date getComFecha() {
         return comFecha;
     }
 
-    public void setComFecha(String comFecha) {
+    public void setComFecha(Date comFecha) {
         this.comFecha = comFecha;
     }
 
@@ -101,16 +105,7 @@ public class Comprobantecontabilidad implements Serializable {
 
     @Override
     public String toString() {
-        return "pck_pdist_fact_conta.entidades.Comprobantecontabilidad[ comNumero=" + comNumero + " ]";
-    }
-
-    @XmlTransient
-    public Collection<Detallecomprobantecontabilidad> getDetallecomprobantecontabilidadCollection() {
-        return detallecomprobantecontabilidadCollection;
-    }
-
-    public void setDetallecomprobantecontabilidadCollection(Collection<Detallecomprobantecontabilidad> detallecomprobantecontabilidadCollection) {
-        this.detallecomprobantecontabilidadCollection = detallecomprobantecontabilidadCollection;
+        return "pck_fact_conta.entidades.Comprobantecontabilidad[ comNumero=" + comNumero + " ]";
     }
     
 }

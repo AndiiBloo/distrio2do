@@ -2,6 +2,7 @@ package pck_fact_conta.negocio;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -13,7 +14,7 @@ import pck_fact_conta.entidades.Detallecomprobantecontabilidad;
 public class negocio_comprobante 
 {
     int validar;
-    public int insertar(String fecha, String observaciones)
+    public int insertar(Date fecha, String observaciones)
     {
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist2_fact_contaPU");
         EntityManager em1 = factory.createEntityManager();
@@ -58,7 +59,7 @@ public class negocio_comprobante
         return validar;
      }
     
-     public int modificar(BigDecimal codigo, String fecha, String observaciones)
+     public int modificar(BigDecimal codigo, Date fecha, String observaciones)
      {
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist2_fact_contaPU");
         EntityManager em1 = factory.createEntityManager();             
@@ -84,8 +85,6 @@ public class negocio_comprobante
     public List<Comprobantecontabilidad> buscar(BigDecimal codigo)
     {
         List<Comprobantecontabilidad> datos = new ArrayList<>();
-        String fecha;
-        String observaciones;
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist2_fact_contaPU");
         EntityManager em1 = factory.createEntityManager();        
         pck_fact_conta.entidades.Comprobantecontabilidad c1 = new pck_fact_conta.entidades.Comprobantecontabilidad();                  
