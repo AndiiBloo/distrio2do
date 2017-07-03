@@ -19,31 +19,31 @@
                     <h:outputLabel value="Fecha Inicio:"/>
                     <p:calendar
                         id="startdate"
-                        value="#{reporteFacturacionController.fechaI}">
-                    </p:calendar> 
+                        value="#{reporteContabilidadController.fechaI}">
+                    </p:calendar>  
                     <h:outputLabel value="Fecha Fin:"/>
                     <p:calendar
                         id="enddate"
-                        value="#{reporteFacturacionController.fechaF}"
-                        mindate="#{reporteFacturacionController.fechaI}">
+                        value="#{reporteContabilidadController.fechaF}"
+                        mindate="#{reporteContabilidadController.fechaI}">
                     </p:calendar>
                 </h:panelGrid>
                 <h:panelGrid columns="3">
-                    <p:commandButton id="reporte1" value="Generar Reporte 1" icon="ui-icon-search" 
+                    <p:commandButton id="reporte1" value="Generar Balance General" icon="ui-icon-search" 
                                     update=":principal" 
-                                    action="#{reporteFacturacionController.generarReporte1}"
+                                    action="#{reporteContabilidadController.generarReporteBalance()}"
                                     onstart="PF('statusDialog').show()" oncomplete="PF('statusDialog').hide()"/>
-                    <p:commandButton id="reporte2" value="Generar Reporte 2" icon="ui-icon-search" 
+                    <p:commandButton id="reporte2" value="Generar Estado de PG" icon="ui-icon-search" 
                                     update=":principal:panel" 
-                                    action="#{reporteFacturacionController.generarReporte2}"
+                                    action="#{reporteContabilidadController.generarReporteEstado()}"
                                     onstart="PF('statusDialog').show()" oncomplete="PF('statusDialog').hide()"/>
                     <p:button value="Regresar" outcome="menu?faces-redirect=true"/>
                 </h:panelGrid>
             
                 <p:accordionPanel id="acordpanReporte" activeIndex="-1">
                     <p:tab title="Reporte">
-                        <p:panel id="pdf" visible="#{reporteFacturacionController.controlPDF}">
-                            <object type="application/pdf" data="./../reportes/pdf/#{reporteFacturacionController.nombreArchivoPdf}" width="100%" height="800px"></object>
+                        <p:panel id="pdf" visible="#{reporteContabilidadController.controlPDF}">
+                            <object type="application/pdf" data="./../reportes/pdf/#{reporteContabilidadController.nombreArchivoPdf}" width="100%" height="800px"></object>
                         </p:panel> 
                     </p:tab>
                 </p:accordionPanel>

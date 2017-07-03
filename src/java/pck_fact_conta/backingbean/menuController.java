@@ -17,7 +17,7 @@ public class menuController implements Serializable{
     private int rol;
     public menuController() {
         botones = new ArrayList<>();
-        for(int i = 0; i<8;i++){
+        for(int i = 0; i<9;i++){
             botones.add(false);
         }
     }
@@ -44,7 +44,7 @@ public class menuController implements Serializable{
                 rol = us.getUsRol().intValueExact();
                 switch(rol){
                     case 1:
-                        for(int i=0 ; i<8;i++){
+                        for(int i=0 ; i<9;i++){
                             botones.set(i, true);
                         }
                         break;
@@ -60,27 +60,27 @@ public class menuController implements Serializable{
                         break;
                     case 4:
                         botones.set(0, true);
-                        botones.set(4, true);
+                        botones.set(3, true);
                         break;
                     case 5:
                         botones.set(1, true);
-                        botones.set(4, true);
+                        botones.set(3, true);
                         break;
                     case 6:
+                        botones.set(2, true);
                         botones.set(3, true);
-                        botones.set(4, true);
                         break;
                     case 7:
-                        botones.set(5, true);
-                        botones.set(8, true);
+                        botones.set(4, true);
+                        botones.set(7, true);
                         break;
                     case 8:
-                        botones.set(6, true);
-                        botones.set(8, true);
+                        botones.set(5, true);
+                        botones.set(7, true);
                         break;
                     case 9:
+                        botones.set(6, true);
                         botones.set(7, true);
-                        botones.set(8, true);
                         break;
                         
                 }

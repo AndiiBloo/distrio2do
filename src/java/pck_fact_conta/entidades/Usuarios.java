@@ -34,18 +34,22 @@ public class Usuarios implements Serializable {
     private BigDecimal usCodigo;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 20)
+    @Size(min = 0, max = 20)
     @Column(name = "US_NOMBRE")
     private String usNombre;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 20)
+    @Size(min = 0, max = 20)
     @Column(name = "US_PASSWORD")
     private String usPassword;
     @Column(name = "US_ROL")
     private BigInteger usRol;
 
     public Usuarios() {
+        this.usCodigo = BigDecimal.ZERO;
+        this.usNombre = "";
+        this.usPassword = "";
+        this.usRol = BigInteger.ZERO;
     }
 
     public Usuarios(BigDecimal usCodigo) {

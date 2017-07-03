@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Comprobante de Contabilidad</title>  
+        
+    </h:head>
+    <h:body>
+        <center>
+            <p:outputLabel style="font-weight: bold; font-size: 30px;" id="titulo" value="Tabla Compuesta - Comprobante contabilidad"/>
+        </center>
+        <h:form>
+            <p:messages autoUpdate="true" id="mensajes" showDetail="true" severity="info, fatal, error"/>
+            <p:panel style="position:relative; margin:0 auto; width: 44%;" header="Comprobante de contabilidad" id="panel">
+                <h:panelGrid columns="2" style="position:relative; margin:0 auto;">
+                    <h:outputLabel for="codigo" value="Codigo:"/>
+                    <p:inputText id="codigo" value="#{comprobanteController.comprobante.comNumero}"/>
+                    <h:outputLabel value="Fecha:"/>        
+                    <p:calendar value="#{comprobanteController.comprobante.comFecha}"/>
+                    <h:outputLabel for="observacion" value="Observaciones:"/>        
+                    <p:inputText id="observacion" value="#{comprobanteController.comprobante.comObservaciones}"/>
+                </h:panelGrid>
+                <br/>
+                <h:panelGrid columns="2" style="position:relative; margin:0 auto;">
+                    <p:commandButton ajax="false" value="Asiento" id="btnAsiento" action="#{comprobanteController.crearAsiento}"/>
+                    <p:commandButton ajax="false" value="Agregar" id="btnAgregar" action="#{comprobanteController.agregarDetalle}"/>
+                </h:panelGrid>
+                <br/>
+                <h:panelGrid columns="2" style="position:relative; margin:0 auto;">
+                    <p:dataTable var="detalle" value="#{comprobanteController.detalles}" >
+                        <p:column headerText="Cuenta">                            
+                             <p:selectOneMenu id="tipo" value="#{detalle.cueCodigo.cueCodigo}" effect="fade" >
+                                 <f:selectItems value="#{comprobanteController.cuentas}" var="cuenta" itemLabel="#{cuenta.cueNombre}" itemValue="#{cuenta.cueCodigo}"  />                        
+                            </p:selectOneMenu>  
+                        </p:column>
+                        <p:column headerText="Debe">
+                            <h:inputText value="#{detalle.dccDebe}" />
+                        </p:column>
+                        <p:column headerText="Haber">
+                            <h:inputText value="#{detalle.dccHaber}" />
+                        </p:column>
+                    </p:dataTable>
+                </h:panelGrid>
+                <br/>
+                <h:panelGrid columns="5">
+                    <p:commandButton ajax="false" value="Insertar" id="btnInsertar" action="#{comprobanteController.guardarComprobante}"/>
+                    <p:commandButton ajax="false" value="Eliminar" id="btnEliminar" action="#{comprobanteController.eliminarComprobante}"/>
+                    <p:commandButton ajax="false" value="Modificar" id="btnModificar" action="#{comprobanteController.modificarComprobante}"/>
+                    <p:commandButton ajax="false" value="Buscar" id="btnBuscar" action="#{comprobanteController.buscarComprobante}"/>
+                    <p:button value="Regresar" outcome="menu?faces-redirect=true"/>
+                </h:panelGrid>
+                <br/>
+            </p:panel>
+        </h:form>
+    </h:body>
+</html>
+
