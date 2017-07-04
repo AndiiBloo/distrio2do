@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pck_fact_conta.backingbean;
 
 import java.io.IOException;
@@ -27,10 +22,6 @@ import net.sf.jasperreports.engine.util.JRLoader;
 import org.primefaces.context.RequestContext;
 import org.primefaces.model.StreamedContent;
 
-/**
- *
- * @author Marco Rodriguez
- */
 @ManagedBean
 @ViewScoped
 public class reporteContabilidadController {
