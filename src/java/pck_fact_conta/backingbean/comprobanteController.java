@@ -97,6 +97,7 @@ public class comprobanteController implements Serializable {
         if(this.verificarCuadre()) {
             if(neg_com.modificar(this.comprobante.getComNumero(),this.comprobante.getComFecha(), this.comprobante.getComObservaciones()) == 1) {                
                 for (int i=0;i<this.detalles.size();i++) {
+                    
                     if (this.detalles.get(i).getDccDebe().equals(0.0) && this.detalles.get(i).getDccHaber().equals(0.0)) {
                         
                     } else {
