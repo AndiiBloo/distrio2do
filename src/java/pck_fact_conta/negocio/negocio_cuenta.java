@@ -7,11 +7,23 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.util.List;
 import java.util.ArrayList;
+import javax.ejb.ActivationConfigProperty;
+import javax.ejb.MessageDriven;
+import javax.jms.MapMessage;
+import javax.jms.Message;
+import javax.jms.MessageListener;
 import pck_fact_conta.entidades.Tipocuenta;
 
-public class negocio_cuenta {
-    int validar;
-    public int insertar(String nombre, Tipocuenta tipo)
+@MessageDriven(mappedName = "destino_jms", activationConfig = {
+    @ActivationConfigProperty(propertyName = "acknowledgeMode", propertyValue = "Auto-acknowledge"),
+    @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue")
+}) 
+public class negocio_cuenta implements MessageListener{
+    
+    private String estado;
+    private String mensaje; 
+    
+    public void insertar(String nombre, Tipocuenta tipo)
     {
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist2_fact_contaPU");
         EntityManager em1 = factory.createEntityManager();
@@ -24,18 +36,20 @@ public class negocio_cuenta {
             em1.getTransaction().begin();
             em1.persist(c1);
             em1.getTransaction().commit();
-            validar = 1;
+            estado="Correcto!";
+            mensaje="Cuenta ingresada correctamente";
             
         }catch (Exception ex){
             System.out.println(ex.getMessage());
-            validar = 0;
+            estado="Error!";
+            mensaje="Error al insertar la Cuenta";
         }
         em1.close();
         factory.close();
-        return validar;
+        imprimirMensaje();
     }
     
-    public int eliminar(BigDecimal codigo){
+    public void eliminar(BigDecimal codigo){
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist2_fact_contaPU");
         EntityManager em1 = factory.createEntityManager();           
         pck_fact_conta.entidades.Cuenta c1 = new pck_fact_conta.entidades.Cuenta();                  
@@ -45,17 +59,20 @@ public class negocio_cuenta {
             em1.getTransaction().begin();
             em1.remove(c1);
             em1.getTransaction().commit();
-            validar = 1;
+            estado="Correcto!";
+            mensaje="Cuenta eliminada correctamente";
+            
         }catch (Exception ex){
             System.out.println(ex.getMessage());
-            validar = 0;
+            estado="Error!";
+            mensaje="Error al eliminar la Cuenta";
         }
         em1.close();
         factory.close();
-        return validar;
+        imprimirMensaje();
      }
     
-     public int modificar(BigDecimal codigo, String nombre, Tipocuenta tipo)
+     public void modificar(BigDecimal codigo, String nombre, Tipocuenta tipo)
      {
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist2_fact_contaPU");
         EntityManager em1 = factory.createEntityManager();             
@@ -69,14 +86,17 @@ public class negocio_cuenta {
             
             em1.persist(c1);
             em1.getTransaction().commit();
-            validar = 1;
+            estado="Correcto!";
+            mensaje="Cuenta modificada correctamente";
+            
         }catch (Exception ex){
             System.out.println(ex.getMessage());
-            validar = 0;
-        } 
+            estado="Error!";
+            mensaje="Error al modificar la Cuenta";
+        }
         em1.close();
         factory.close();
-        return validar;
+        imprimirMensaje();
      }
      
     public List<Cuenta> buscar(BigDecimal codigo)
@@ -110,8 +130,41 @@ public class negocio_cuenta {
         factory.close();
         return datos;
     }
-     public void procesar()
-     {
-	// programar el código de la regla de negocio         
-     }    
+     private void imprimirMensaje() {
+         
+        System.out.println(estado +", "+mensaje);
+    }
+    @Override
+    public void onMessage(Message message) {
+        try
+        {   
+            MapMessage msg=(MapMessage ) message;
+            String ventana = msg.getString("ventana");
+            if(ventana.equals("cuenta")) {                
+                String accion = msg.getString("accion");
+                Cuenta cuenta = new Cuenta();
+                cuenta.setCueCodigo(BigDecimal.valueOf(Double.valueOf(msg.getString("codigo"))));
+                cuenta.setCueNombre(msg.getString("nombre"));
+                Tipocuenta tipocuenta= new Tipocuenta();
+                tipocuenta.setTdcCodigo(BigDecimal.valueOf(Double.valueOf(msg.getString("codigotc"))));
+                tipocuenta.setTdcNombre(msg.getString("nombre"));                
+                switch(accion) {                
+                    case "insertar":
+                        this.insertar(cuenta.getCueNombre(), tipocuenta);
+                        break;
+                    case "eliminar":
+                        this.eliminar(cuenta.getCueCodigo());
+                        break;
+                    case "modificar":
+                        this.modificar(cuenta.getCueCodigo(), cuenta.getCueNombre(), tipocuenta);
+                        break;
+                } 
+            }
+        }
+        catch (Exception ex){
+            
+            ex.printStackTrace();
+            
+        }
+    }
 }

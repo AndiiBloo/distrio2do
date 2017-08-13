@@ -12,7 +12,7 @@
         <center>
             <p:outputLabel style="font-weight: bold; font-size: 30px;" id="titulo" value="Tabla Simple - Tipo Cuentas"/>
         </center>
-        <h:form>
+        <h:form>            
             <p:messages autoUpdate="true" id="mensajes" showDetail="true" severity="info, fatal, error"/>
             <p:panel style="position:relative; margin:0 auto; width: 44%;" header="Tipo Cuenta" id="panel">
                 <h:panelGrid columns="2" style="position:relative; margin:0 auto;">
@@ -29,7 +29,19 @@
                     <p:commandButton ajax="false" value="Buscar" id="btnBuscar" action="#{tipocuentaController.buscarTipoCuenta}"/>
                     <p:button value="Regresar" outcome="menu?faces-redirect=true"/>
                 </h:panelGrid>
-                <br/>       
+                <br/>
+                <br/>
+                <p:dataTable value="#{tipocuentaController.tiposcuenta}" var="tipocuenta">
+                    <p:column headerText="Codigo">
+                        <h:outputText value="#{tipocuenta.tdcCodigo}" />
+                    </p:column>
+
+                    <p:column headerText="Nombre">
+                        <h:outputText value="#{tipocuenta.tdcNombre}" />
+                    </p:column>                    
+                    
+                </p:dataTable>
+                <br/>
             </p:panel>
         </h:form>
     </h:body>

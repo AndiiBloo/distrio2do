@@ -10,6 +10,10 @@ package pck_fact_conta.backingbean;
  * @author Marco Rodriguez
  */
 import java.io.Serializable;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.application.FacesMessage;
@@ -19,6 +23,8 @@ import javax.faces.context.FacesContext;
 import pck_fact_conta.entidades.Comprobantecontabilidad;
 import pck_fact_conta.entidades.Cuenta;
 import pck_fact_conta.entidades.Detallecomprobantecontabilidad;
+import pck_fact_conta.interfaces.IComprobante;
+import pck_fact_conta.interfaces.IDetalleComprobante;
 import pck_fact_conta.negocio.negocio_articulo;
 import pck_fact_conta.negocio.negocio_comprobante;
 import pck_fact_conta.negocio.negocio_cuenta;
@@ -32,20 +38,16 @@ public class comprobanteController implements Serializable {
     private List<Detallecomprobantecontabilidad> detalles;
     private Detallecomprobantecontabilidad detalle;
     private final negocio_cuenta neg_cue;
-    private final negocio_comprobante neg_com;
     private List<Cuenta> cuentas;
     private final negocio_articulo neg_art;
-    private final negocio_detalle neg_det;
     
     public comprobanteController() {
         this.comprobante = new Comprobantecontabilidad();
         this.detalles = new ArrayList<>();
         this.detalle = new Detallecomprobantecontabilidad();
         this.neg_cue= new negocio_cuenta();
-        this.neg_com = new negocio_comprobante();
         this.cuentas = neg_cue.mostrar(); 
         this.neg_art=new negocio_articulo();
-        this.neg_det= new negocio_detalle();
     }
     
     public void crearAsiento() {
@@ -66,82 +68,118 @@ public class comprobanteController implements Serializable {
     }
     
     public void guardarComprobante(){
-        this.detalle = new Detallecomprobantecontabilidad();
-        if(this.verificarCuadre()) {
-            if(neg_com.insertar(this.comprobante.getComFecha(), this.comprobante.getComObservaciones()) == 1) {
-            this.comprobante.setComNumero(this.neg_com.maximo());
-            for (int i=0;i<this.detalles.size();i++) {
-                
-                if (this.detalles.get(i).getDccDebe().equals(0.0) && this.detalles.get(i).getDccHaber().equals(0.0)) {
-                    
-                } else {
-                    this.neg_det.insertar(this.comprobante, this.detalles.get(i).getCueCodigo(), this.detalles.get(i).getDccDebe(), this.detalles.get(i).getDccHaber());
-
-                }
-            }
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-                        "Correcto!", "Comprobante insertado correctamente"));
-
-            } else {
-                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                        "Error!", "Error al insertar el Comprobante"));
-            }
-        } else {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                        "Error!", "El detalle no esta cuadrado"));
-        }
-        
-    }
-    public void modificarComprobante() {
-        this.detalle = new Detallecomprobantecontabilidad();
-        if(this.verificarCuadre()) {
-            if(neg_com.modificar(this.comprobante.getComNumero(),this.comprobante.getComFecha(), this.comprobante.getComObservaciones()) == 1) {                
+        try
+        {
+            Registry registro=LocateRegistry.getRegistry("127.0.0.1",1099);
+            IComprobante neg_com = (IComprobante) registro.lookup("rmi://localhost:1099/RMI_Comprobate");
+            IDetalleComprobante neg_det = (IDetalleComprobante) registro.lookup("rmi://localhost:1099/RMI_DetalleCom");
+            this.detalle = new Detallecomprobantecontabilidad();
+            if(this.verificarCuadre()) {
+                if(neg_com.insertar(this.comprobante.getComFecha(), this.comprobante.getComObservaciones()) == 1) {
+                this.comprobante.setComNumero(neg_com.maximo());
                 for (int i=0;i<this.detalles.size();i++) {
-                    
+
                     if (this.detalles.get(i).getDccDebe().equals(0.0) && this.detalles.get(i).getDccHaber().equals(0.0)) {
-                        
+
                     } else {
-                        this.neg_det.modificar(this.comprobante,this.detalles.get(i).getDccCodigo(), this.detalles.get(i).getCueCodigo(), this.detalles.get(i).getDccDebe(), this.detalles.get(i).getDccHaber());
+                        neg_det.insertar(this.comprobante, this.detalles.get(i).getCueCodigo(), this.detalles.get(i).getDccDebe(), this.detalles.get(i).getDccHaber());
+
                     }
                 }
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-                        "Correcto!", "Comprobante modifcado correctamente"));
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                            "Correcto!", "Comprobante insertado correctamente"));
 
+                } else {
+                     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                            "Error!", "Error al insertar el Comprobante"));
+                }
             } else {
-                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                        "Error!", "Error al modificar el Comprobante"));
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                            "Error!", "El detalle no esta cuadrado"));
             }
-        }else {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                        "Error!", "El detalle no esta cuadrado"));
         }
-            
-        
+        catch(RemoteException | NotBoundException ex)
+        { System.out.println("Error rmi insertar");
+        }
+    }
+    public void modificarComprobante() {
+        try
+        {
+            Registry registro=LocateRegistry.getRegistry("127.0.0.1",2500);
+            IComprobante neg_com = (IComprobante) registro.lookup("rmi://localhost:2500/RMI_Comprobate");
+            IDetalleComprobante neg_det = (IDetalleComprobante) registro.lookup("rmi://localhost:2500/RMI_DetalleCom");            
+            this.detalle = new Detallecomprobantecontabilidad();
+            if(this.verificarCuadre()) {
+                if(neg_com.modificar(this.comprobante.getComNumero(),this.comprobante.getComFecha(), this.comprobante.getComObservaciones()) == 1) {                
+                    for (int i=0;i<this.detalles.size();i++) {
+
+                        if (this.detalles.get(i).getDccDebe().equals(0.0) && this.detalles.get(i).getDccHaber().equals(0.0)) {
+
+                        } else {
+                            neg_det.modificar(this.comprobante,this.detalles.get(i).getDccCodigo(), this.detalles.get(i).getCueCodigo(), this.detalles.get(i).getDccDebe(), this.detalles.get(i).getDccHaber());
+                        }
+                    }
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                            "Correcto!", "Comprobante modifcado correctamente"));
+
+                } else {
+                     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                            "Error!", "Error al modificar el Comprobante"));
+                }
+            }else {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                            "Error!", "El detalle no esta cuadrado"));
+            }
+        }
+        catch(RemoteException | NotBoundException ex)
+        { 
+            System.out.println("Error rmi modificar");
+        }
     }
     public void buscarComprobante() {
-        this.comprobante = this.neg_com.buscar(this.comprobante.getComNumero()).get(0);
-        if(this.comprobante != null) {
-            this.detalles = this.neg_det.buscar(this.comprobante);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-                    "Correcto!", "Comprobante encontrado"));
-        } else {
-             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                    "Error!", "Error al encontrar el Comprobante"));
-             this.comprobante = new Comprobantecontabilidad();
+         try
+        {
+            Registry registro=LocateRegistry.getRegistry("127.0.0.1",1099);
+            IComprobante neg_com = (IComprobante) registro.lookup("rmi://localhost:1099/RMI_Comprobate");
+            IDetalleComprobante neg_det = (IDetalleComprobante) registro.lookup("rmi://localhost:1099/RMI_DetalleCom"); 
+            System.out.println("Encuentra registros");
+            this.comprobante = neg_com.buscar(this.comprobante.getComNumero()).get(0);
+            if(this.comprobante != null) {
+                this.detalles = neg_det.buscar(this.comprobante);
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                        "Correcto!", "Comprobante encontrado"));
+            } else {
+                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                        "Error!", "Error al encontrar el Comprobante"));
+                 this.comprobante = new Comprobantecontabilidad();
+            }
+        }
+        catch(RemoteException | NotBoundException ex)
+        { 
+            System.out.println("Error rmi buscar"+ex);
         }
     }
     public void eliminarComprobante(){
-        
-        for(int i =0; i<this.detalles.size(); i++) {
-            this.neg_det.eliminar(this.detalles.get(i).getDccCodigo());
+         try
+        {
+            Registry registro=LocateRegistry.getRegistry("127.0.0.1",1099);
+            IComprobante neg_com = (IComprobante) registro.lookup("rmi://localhost:1099/RMI_Comprobate");
+            IDetalleComprobante neg_det = (IDetalleComprobante) registro.lookup("rmi://localhost:1099/RMI_DetalleCom");  
+            for(int i =0; i<this.detalles.size(); i++) {
+                neg_det.eliminar(this.detalles.get(i).getDccCodigo());
+            }
+            if (neg_com.eliminar(this.comprobante.getComNumero())==1) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                    "Correcto!", "Comprobante eliminado correctamente"));
+
+            } else {
+                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                        "Error!", "Error al eliminar el Comprobante"));
+            }
         }
-        if (this.neg_com.eliminar(this.comprobante.getComNumero())==1) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-                "Correcto!", "Comprobante eliminado correctamente"));
-           
-        } else {
-             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                    "Error!", "Error al eliminar el Comprobante"));
+        catch(RemoteException | NotBoundException ex)
+        { 
+            System.out.println("Error rmi eliminar");
         }
     }
     private Boolean verificarCuadre(){
@@ -157,6 +195,7 @@ public class comprobanteController implements Serializable {
         }
         return valido;
     }
+    
     public Comprobantecontabilidad getComprobante() {
         return comprobante;
     }
