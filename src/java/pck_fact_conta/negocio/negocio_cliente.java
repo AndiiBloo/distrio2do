@@ -5,10 +5,52 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.util.List;
 import java.util.ArrayList;
+import javax.ejb.ActivationConfigProperty;
+import javax.ejb.MessageDriven;
+import javax.jms.Message;
+import javax.jms.MessageListener;
+import javax.jms.ObjectMessage;
 import pck_fact_conta.entidades.Cliente;
 
-public class negocio_cliente {
+@MessageDriven(mappedName = "destino_jms", activationConfig = {
+    @ActivationConfigProperty(propertyName = "acknowledgeMode", propertyValue = "Auto-acknowledge"),
+    @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue")
+})
+public class negocio_cliente implements MessageListener{
     int ok;
+    @Override
+    public void onMessage(Message message) {
+        try
+        {
+            ObjectMessage msg =(ObjectMessage) message;
+            if(msg.getStringProperty("clase").equals("cliente")){
+                Cliente cli = new Cliente();
+                int tipo = msg.getIntProperty("tipo");
+                cli = (Cliente) msg.getObject();
+                switch(tipo){
+                    case 1: 
+                        this.insertar(cli.getCliRuc(), cli.getCliNombre(), cli.getCliDireccion());
+                        break;
+                    case 2:
+                        this.eliminar(cli.getCliRuc());
+                        break;
+                    case 3:
+                        this.modificar(cli.getCliRuc(), cli.getCliNombre(), cli.getCliDireccion());
+                        break;
+                    default:
+                        System.out.println("Error msj");
+                        break;
+                }
+                System.out.print("Todo ok cliente");
+            }
+        }
+        catch (Exception ex)
+        {
+            System.out.println("epic fail ciudad");
+            ex.printStackTrace();
+        }
+    }
+    
     public int insertar(String ruc, String nombre, String direccion){
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist2_fact_contaPU");
         EntityManager em1 = factory.createEntityManager();
@@ -101,15 +143,17 @@ public class negocio_cliente {
         
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist2_fact_contaPU");
         EntityManager em1 = factory.createEntityManager();
-        
         try{
             listClientes = em1.createNamedQuery("Cliente.findAll",Cliente.class).getResultList();
         }catch(Exception ex){
             System.out.println(ex.getMessage());
         }finally{
+            
             em1.close();
             factory.close();
         }
         return listClientes;
     }  
+
+    
 }

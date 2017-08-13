@@ -3,13 +3,58 @@ package pck_fact_conta.negocio;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import javax.ejb.ActivationConfigProperty;
+import javax.ejb.MessageDriven;
+import javax.jms.Message;
+import javax.jms.MessageListener;
+import javax.jms.ObjectMessage;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import pck_fact_conta.entidades.CiudadEntrega;
-
-public class negocio_ciudad {
+@MessageDriven(mappedName = "destino_jms_al", activationConfig = {
+    @ActivationConfigProperty(propertyName = "acknowledgeMode", propertyValue = "Auto-acknowledge"),
+    @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue")
+})
+public class negocio_ciudad implements MessageListener{
     int ok;
+    
+    @Override
+    public void onMessage(Message message) {
+        try
+        {
+            
+            ObjectMessage msg =(ObjectMessage) message;
+            
+            if(msg.getStringProperty("clase").equals("ciudad")){
+                CiudadEntrega ciu = new CiudadEntrega();
+                int tipo = msg.getIntProperty("tipo");
+                ciu = (CiudadEntrega) msg.getObject();
+            
+                switch(tipo){
+                    case 1: 
+                        this.insertar(ciu.getCiuNombre());
+                        break;
+                    case 2:
+                        this.eliminar(ciu.getCiuCodigo());
+                        break;
+                    case 3:
+                        this.modificar(ciu.getCiuCodigo(), ciu.getCiuNombre());
+                        break;
+                    default:
+                        System.out.println("Error msj");
+                        break;
+                }
+                System.out.print("Todo ok ciudad");
+            }
+
+        }
+        catch (Exception ex)
+        {
+            System.out.println("epic fail ciduad");
+            ex.printStackTrace();
+        }
+    }
     public int insertar(String nombre){
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist2_fact_contaPU");
         EntityManager em1 = factory.createEntityManager();

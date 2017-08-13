@@ -9,6 +9,11 @@ import pck_fact_conta.entidades.Cliente;
 import pck_fact_conta.negocio.negocio_cliente;
 import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.Resource;
+import javax.jms.Connection;
+import javax.jms.MessageProducer;
+import javax.jms.ObjectMessage;
+import javax.jms.Session;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -16,7 +21,12 @@ import javax.persistence.Persistence;
 @ManagedBean
 @ViewScoped
 public class clienteController implements Serializable {
+    @Resource(mappedName="conexion_jms")
+    javax.jms.QueueConnectionFactory queueConnection;
+    @Resource(mappedName="destino_jms")
+    javax.jms.Queue queue;
     
+    static final String CLASE = "cliente";
     private Cliente cliente;
     private final negocio_cliente ncli = new negocio_cliente();
     private List<Cliente> clientes = new ArrayList<>();
@@ -48,44 +58,90 @@ public class clienteController implements Serializable {
     
     public clienteController() {
         cliente = new Cliente();
-        cargarClientes();
+        this.cargarClientes();
     }
     
     public void cargarClientes(){
         clientes = ncli.mostrarClientes();
     }
     
+    private void enviarMensaje(Integer tipo, String clase){
+        try{
+            Connection  connection =queueConnection.createConnection();
+            Session session=connection.createSession(false,Session.AUTO_ACKNOWLEDGE);
+            MessageProducer producer=session.createProducer(queue);
+            ObjectMessage message=session.createObjectMessage();
+            message.setIntProperty("tipo",tipo);
+            message.setStringProperty("clase",clienteController.CLASE);
+            message.setObject(cliente);
+
+                producer.send(message);
+            
+            producer.close();
+            session.close();
+            connection.close();
+            switch(tipo){
+                case 1:
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                    "Correcto!", "Cliente ingresado correctamente"));
+                break;
+                case 2:
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                    "Correcto!", "Cliente eliminado correctamente"));
+                break;
+                case 3:
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                    "Correcto!", "Cliente modificado correctamente"));
+                break;
+                default:
+                    System.out.println("Fail backing bean");
+                break;
+            }
+            
+        }catch(Exception e){
+            e.printStackTrace();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "Error!", "Error en la transacción"));
+        }
+    }
+    
     public void ingresar(){
+        /*
         if (ncli.insertar(this.cliente.getCliRuc(), this.cliente.getCliNombre(),this.cliente.getCliDireccion())==1)
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
                     "Correcto!", "Cliente ingresado correctamente"));
         else
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                    "Error!", "Error al insertar el cliente"));
+                    "Error!", "Error al insertar el cliente"));*/
+        this.enviarMensaje(1, clienteController.CLASE);
         cliente = new Cliente();
-        cargarClientes();
+        this.cargarClientes();
     }
     
     public void eliminar(){
+        /*
         if (ncli.eliminar(this.cliente.getCliRuc())==1)
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
                     "Correcto!", "Cliente eliminado correctamente"));
         else
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                    "Error!", "Error al eliminar el cliente"));
+                    "Error!", "Error al eliminar el cliente"));*/
+        this.enviarMensaje(2, clienteController.CLASE);
         cliente = new Cliente();
-        cargarClientes();
+        this.cargarClientes();
     }
     
     public void modificar(){
+        /*
         if (ncli.modificar(this.cliente.getCliRuc(), this.cliente.getCliNombre(),this.cliente.getCliDireccion())==1)
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
                     "Correcto!", "Cliente modificado correctamente"));
         else
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                    "Error!", "Error al modificar el cliente"));
+                    "Error!", "Error al modificar el cliente"));*/
+        this.enviarMensaje(3, clienteController.CLASE);
         cliente = new Cliente();
-        cargarClientes();
+        this.cargarClientes();
     }
     
     public void buscar(){

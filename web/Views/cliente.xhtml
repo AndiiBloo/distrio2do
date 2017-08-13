@@ -12,7 +12,7 @@
         <center>
             <p:outputLabel style="font-weight: bold; font-size: 30px;" id="titulo" value="Tabla Simple - Clientes"/>
         </center>
-        <h:form>
+        <h:form id="formCliente">
             <p:messages autoUpdate="true" id="mensajes" showDetail="true" severity="info, fatal, error"/>
             <p:panel style="position:relative; margin:0 auto; width: 44%;" header="Cliente" id="panel">
                 <h:panelGrid columns="2" style="position:relative; margin:0 auto;">
@@ -25,16 +25,16 @@
                     <br/>
                 </h:panelGrid>
                 <h:panelGrid columns="5">
-                    <p:commandButton ajax="false" value="Ingresar" id="btnIngresar" action="#{clienteController.ingresar}"/>
-                    <p:commandButton ajax="false" value="Eliminar" id="btnEliminar" action="#{clienteController.eliminar}"/>
-                    <p:commandButton ajax="false" value="Modificar" id="btnModificar" action="#{clienteController.modificar}"/>
+                    <p:commandButton onclick="window.location.reload(false)" update=":formCliente:tabCliente" ajax="false" value="Ingresar" id="btnIngresar" action="#{clienteController.ingresar}"/>
+                    <p:commandButton onclick="window.location.reload(false)" update=":formCliente:tabCliente" ajax="false" value="Eliminar" id="btnEliminar" action="#{clienteController.eliminar}"/>
+                    <p:commandButton onclick="window.location.reload(false)" update=":formCliente:tabCliente" ajax="false" value="Modificar" id="btnModificar" action="#{clienteController.modificar}"/>
                     <p:commandButton ajax="false" value="Buscar" id="btnBuscar" action="#{clienteController.buscar}"/>
                     <p:button value="Regresar" outcome="menu?faces-redirect=true"/>
                 </h:panelGrid>
                 
                 <br/>
                 <br/>
-                <p:dataTable value="#{clienteController.clientes}" var="cliente">
+                <p:dataTable id="tabCliente" value="#{clienteController.clientes}" var="cliente">
                     <p:column headerText="Ruc">
                         <h:outputText value="#{cliente.cliRuc}" />
                     </p:column>
