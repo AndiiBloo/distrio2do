@@ -7,12 +7,23 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.util.List;
 import java.util.ArrayList;
-import javax.persistence.Query;
+import javax.ejb.ActivationConfigProperty;
+import javax.ejb.MessageDriven;
+import javax.jms.MapMessage;
+import javax.jms.Message;
+import javax.jms.MessageListener;
 
-public class negocio_tipocuenta 
+@MessageDriven(mappedName = "destino_jms", activationConfig = {
+    @ActivationConfigProperty(propertyName = "acknowledgeMode", propertyValue = "Auto-acknowledge"),
+    @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue")
+}) 
+public class negocio_tipocuenta implements MessageListener
 {
-    int validar;
-    public int insertar(String nombre)
+    
+    private String estado;
+    private String mensaje;  
+    
+    public void insertar(String nombre)
     {
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist2_fact_contaPU");
         EntityManager em1 = factory.createEntityManager();
@@ -24,18 +35,20 @@ public class negocio_tipocuenta
             em1.getTransaction().begin();
             em1.persist(c1);
             em1.getTransaction().commit();
-            validar = 1;
+            estado="Correcto!";
+            mensaje="Tipo de Cuenta ingresada correctamente";
             
         }catch (Exception ex){
             System.out.println(ex.getMessage());
-            validar = 0;
+            estado="Error!";
+            mensaje="Error al insertar el Tipo de Cuenta";
         }
         em1.close();
         factory.close();
-        return validar;
+        imprimirMensaje();
     }
     
-    public int eliminar(BigDecimal codigo)
+    public void eliminar(BigDecimal codigo)
     {
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist2_fact_contaPU");
         EntityManager em1 = factory.createEntityManager();           
@@ -46,17 +59,19 @@ public class negocio_tipocuenta
             em1.getTransaction().begin();
             em1.remove(c1);
             em1.getTransaction().commit();
-            validar = 1;
+            estado="Correcto!";
+            mensaje="Tipo de Cuenta eliminada correctamente";
         }catch (Exception ex){
             System.out.println(ex.getMessage());
-            validar = 0;
+            estado="Error!";
+            mensaje="Error al eliminar el Tipo de Cuenta";
         }
         em1.close();
         factory.close();
-        return validar;
+        imprimirMensaje();
      }
     
-     public int modificar(BigDecimal codigo, String nombre)
+     public void modificar(BigDecimal codigo, String nombre)
      {
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist2_fact_contaPU");
         EntityManager em1 = factory.createEntityManager();             
@@ -68,37 +83,41 @@ public class negocio_tipocuenta
             c1.setTdcNombre(nombre);            
             em1.persist(c1);
             em1.getTransaction().commit();
-            validar = 1;
+            estado="Correcto!";
+            mensaje="Tipo de Cuenta modificada correctamente";
         }catch (Exception ex){
             System.out.println(ex.getMessage());
-            validar = 0;
+            estado="Error!";
+            mensaje="Error al modificar el Tipo de Cuenta";
         } 
         em1.close();
         factory.close();
-        return validar;
+        imprimirMensaje();
      }
      
     
-    public List<String> buscar(BigDecimal codigo)
+    public String buscar(BigDecimal codigo)
     {
-        List<String> datos = new ArrayList<>();
-        String nombre;
+        
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist2_fact_contaPU");
         EntityManager em1 = factory.createEntityManager(); 
         pck_fact_conta.entidades.Tipocuenta c1 = new pck_fact_conta.entidades.Tipocuenta();                  
-        
+        String nombre = null;
         try{
             c1 = em1.find(Tipocuenta.class,codigo);
             nombre = c1.getTdcNombre();
-            datos.add(nombre);
+            estado="Correcto!";
+            mensaje="Tipo de Cuenta encontrada correctamente";
         }catch (Exception ex){
             System.out.println(ex.getMessage());
             nombre = null;
-            datos.add(nombre);
+            estado="Error!";
+            mensaje="Error al modificar el Tipo de Cuenta";
         } 
         em1.close();
         factory.close();
-        return datos;
+        imprimirMensaje();
+        return nombre;
     }
     public List<Tipocuenta> mostrar()
     {
@@ -129,5 +148,38 @@ public class negocio_tipocuenta
         em1.close();
         factory.close();
         return datos;
-    }   
+    }  
+    private void imprimirMensaje() {
+        System.out.println(estado +", "+mensaje);
+    }
+    @Override
+    public void onMessage(Message message) {
+        try
+        {   
+            MapMessage msg=(MapMessage ) message;
+            String ventana = msg.getString("ventana");
+            if(ventana.equals("tipocuenta")) {
+               String accion = msg.getString("accion");
+                Tipocuenta tipocuenta= new Tipocuenta();
+                tipocuenta.setTdcCodigo(BigDecimal.valueOf(Double.valueOf(msg.getString("codigo"))));
+                tipocuenta.setTdcNombre(msg.getString("nombre"));
+                switch(accion) {                
+                    case "insertar":
+                        this.insertar(tipocuenta.getTdcNombre());
+                        break;
+                    case "eliminar":
+                        this.eliminar(tipocuenta.getTdcCodigo());
+                        break;
+                    case "modificar":
+                        this.modificar(tipocuenta.getTdcCodigo(), tipocuenta.getTdcNombre());
+                        break;
+                } 
+            }
+        }
+        catch (Exception ex){
+            
+            ex.printStackTrace();
+            
+        }
+    }
 }

@@ -1,6 +1,8 @@
 package pck_fact_conta.negocio;
 
 import java.math.BigDecimal;
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -9,11 +11,18 @@ import javax.persistence.Persistence;
 import pck_fact_conta.entidades.Comprobantecontabilidad;
 import pck_fact_conta.entidades.Cuenta;
 import pck_fact_conta.entidades.Detallecomprobantecontabilidad;
+import pck_fact_conta.interfaces.IDetalleComprobante;
 
-public class negocio_detalle 
+public class negocio_detalle extends UnicastRemoteObject implements IDetalleComprobante
 {
     int validar;
-    public int insertar(Comprobantecontabilidad comprobante, Cuenta cuenta, Double debe, Double haber )
+
+    public negocio_detalle() throws RemoteException   {
+        super();
+    }
+    
+    @Override
+    public int insertar(Comprobantecontabilidad comprobante, Cuenta cuenta, Double debe, Double haber ) throws RemoteException
     {
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist2_fact_contaPU");
         EntityManager em1 = factory.createEntityManager();
@@ -37,7 +46,8 @@ public class negocio_detalle
         factory.close();
         return validar;
     }
-   public List<Detallecomprobantecontabilidad> buscar(Comprobantecontabilidad comprobante) {
+    @Override
+    public List<Detallecomprobantecontabilidad> buscar(Comprobantecontabilidad comprobante) throws RemoteException {
         List<Detallecomprobantecontabilidad> datos = new ArrayList<>();
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist2_fact_contaPU");
         EntityManager em1 = factory.createEntityManager();        
@@ -46,7 +56,8 @@ public class negocio_detalle
         factory.close();
         return datos;
     }
-   public int eliminar(BigDecimal codigo) {
+    @Override
+    public int eliminar(BigDecimal codigo) throws RemoteException {
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist2_fact_contaPU");
         EntityManager em1 = factory.createEntityManager();
         pck_fact_conta.entidades.Detallecomprobantecontabilidad c1 = new pck_fact_conta.entidades.Detallecomprobantecontabilidad();                  
@@ -65,7 +76,8 @@ public class negocio_detalle
         factory.close();   
         return validar;
    }
-   public int modificar(Comprobantecontabilidad comprobante,BigDecimal codigo, Cuenta cuenta, Double debe, Double haber) {
+   @Override
+   public int modificar(Comprobantecontabilidad comprobante,BigDecimal codigo, Cuenta cuenta, Double debe, Double haber) throws RemoteException {
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("pdist2_fact_contaPU");
         EntityManager em1 = factory.createEntityManager();             
         pck_fact_conta.entidades.Detallecomprobantecontabilidad c1 = new pck_fact_conta.entidades.Detallecomprobantecontabilidad();                  

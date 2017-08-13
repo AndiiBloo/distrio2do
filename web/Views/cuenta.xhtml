@@ -33,6 +33,22 @@
                     <p:commandButton ajax="false" value="Buscar" id="btnBuscar" action="#{cuentaController.obtenerCuenta}"/>
                     <p:button value="Regresar" outcome="menu?faces-redirect=true"/>
                 </h:panelGrid>
+                <br/>
+                <br/>
+                <p:dataTable value="#{cuentaController.cuentas}" var="cuenta">
+                    <p:column headerText="Codigo">
+                        <h:outputText value="#{cuenta.cueCodigo}" />
+                    </p:column>
+
+                    <p:column headerText="Nombre">
+                        <h:outputText value="#{cuenta.cueNombre}" />
+                    </p:column>   
+                    
+                    <p:column headerText="Tipo Cuenta">
+                        <h:outputText value="#{cuenta.tdcCodigo.tdcNombre}" />
+                    </p:column> 
+                </p:dataTable>
+                <br/>
             </p:panel>
         </h:form>
     </h:body>
